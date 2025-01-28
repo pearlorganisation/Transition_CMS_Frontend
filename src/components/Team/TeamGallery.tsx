@@ -183,7 +183,7 @@ export default function TeamGallery() {
           {members.executive_team.map((member, idx) => (
             <>
               {idx === 2 && (
-                <div className="md:col-span-2 card w-full  bg-cyan-100 rounded-lg p-6">
+                <div key={member.id} className="md:col-span-2 card w-full  bg-cyan-100 rounded-lg p-6">
                   <ConnectWithUs />
                 </div>
               )}

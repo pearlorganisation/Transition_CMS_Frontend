@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image, { StaticImageData } from "next/image";
+import { getAllArticles } from "../lib/database/action/articleAction";
 import {
   IconBuildingFactory2,
   IconCircleArrowDownFilled,
@@ -27,21 +28,21 @@ function ArticleCard({
   image,
   title,
   date,
-  read_time,
+  readTime,
   link
 }: {
-  image: StaticImageData;
-  title: React.ReactNode;
+  image:{secure_url: string};
+  title: string;
   date: string;
-  read_time: string;
+  readTime:number;
   link: string;
 }) {
   return (
     <div className="card bg-base-100 shadow-md w-full border ">
       <div className="card-body p-4">
-        <Image src={image} alt="Transition VC Articles" className="w-full h-full object-contain" />
+        <Image src={image.secure_url} width={30} height={30} alt="Transition VC Articles" className="w-full h-full object-contain" />
         <p className="text-[1.25rem] text-wrap pr-[0.7rem]">{title}</p>
-        <h4 className="text-[#828282] font-thin py-2">{date} - {read_time}</h4>
+        <h4 className="text-[#828282] font-thin py-2">{date} - {readTime}</h4>
         <a href={link} className="text-2xl px-0 text-primary hover:underline">Read More</a>
       </div>
     </div>
@@ -75,6 +76,39 @@ const articleCards = [
 ];
 
 export default function ArticlesSection({props}: {props: ArticlesSectionProps|undefined}) {
+ 
+  interface Article {
+    _id: string;
+    name: string;
+    image: { secure_url: string };
+    title: string;
+    date: string;
+    readTime: number;
+    link: string;
+  }
+
+  const [articleData, setArticleData] = useState<Article[]>([]);
+
+  useEffect(() => {
+    const fetchArticles = async () => {
+      try {
+        const response = await fetch(`http://localhost:8000/api/v1/articles`);
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const posts = await response.json();
+        console.log("the posts data", posts);
+        setArticleData(posts.data);
+      } catch (error) {
+        console.error("Failed to fetch articles:", error);
+      }
+    };
+
+    fetchArticles();
+  }, []);
+console.log("the article data is", articleData)
+  
+// fetchArticleData()
   const showSubtitle = props?.showSubtitle ?? true;
   const title = props?.title ?? "Articles";
   const subtitle = props?.subtitle ?? "Articles";
@@ -104,9 +138,18 @@ export default function ArticlesSection({props}: {props: ArticlesSectionProps|un
               </div>
             </div>
             <div className="carousel flex flex-nowrap gap-5 w-full">
-              {articleCards.map((item) => (
+              {/* {articleCards.map((item) => (
                 <div
                   id={item.name}
+                  key={item.name}
+                  className="carousel-item lg:w-[33.3%] py-2 "
+                >
+                  {ArticleCard(item)}
+                </div>
+              ))} */}
+               {articleData?.map((item) => (
+                <div
+                  id={item._id}
                   key={item.name}
                   className="carousel-item lg:w-[33.3%] py-2 "
                 >

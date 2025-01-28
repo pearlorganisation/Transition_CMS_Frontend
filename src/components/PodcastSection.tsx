@@ -6,6 +6,7 @@ import img_podcast from "../../public/img/insight/podcast.png";
 const PodcastListing = () => {
   const podcastData = [
     {
+      id:1,
       title: "Charging Into Tomorrow: EMO Energy's Game changing Battery Packs",
       description:
         "Join us as we explore the future of energy transition and the revolutionary impact these advancements are poised to have on various industries.",
@@ -28,8 +29,8 @@ const PodcastListing = () => {
       </div>
       <div className="space-y-6">
         {podcastData.map((podcast, index) => (
-          <>
-            <div key={index}>
+          
+            <div key={podcast.id}>
               <div className="grid grid-cols-10 p-4 rounded-lg">
                 {/* <div className="w-24 h-24 bg-black rounded-lg flex items-center justify-center flex-shrink-0"> */}
                 <a href={podcast.link} target="_blank" rel="noopener noreferrer" className="col-span-10 md:col-span-2 cursor-pointer">
@@ -49,7 +50,7 @@ const PodcastListing = () => {
               </div>
               {index < plen - 1 && <div className="divider"></div>}
             </div>
-          </>
+           
         ))}
       </div>
     </div>
