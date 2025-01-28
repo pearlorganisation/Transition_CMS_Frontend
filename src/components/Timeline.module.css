@@ -1,0 +1,23 @@
+.timeline-divider {
+    position: relative;
+    border: none;
+    width: 1px;
+    /* background-color: #ccc; /* Adjust color as needed */
+    margin: 0 auto;
+    /* height: 100px; /* Adjust height as needed */
+}
+
+.timeline-divider::after {
+    content: "Investment Timeline";
+    position: absolute;
+    left: -300%;
+    top: 50%;
+    transform: translate(-50%, -50%) rotate(-90deg);
+    white-space: nowrap;
+    font-size: 1rem; /* Adjust size as needed */
+    line-height: 1.5rem;
+    letter-spacing: 0.48rem;
+    color: #888; /* Adjust color as needed */
+    /* background-color: white; /* Match your background color */
+    padding: 0 5px;
+}
