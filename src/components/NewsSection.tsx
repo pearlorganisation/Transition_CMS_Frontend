@@ -1,6 +1,7 @@
 "use client";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Image, { StaticImageData } from "next/image";
+import { getAllNews } from "../lib/database/action/newsAction"
 import {
   IconBuildingFactory2,
   IconCircleArrowDownFilled,
@@ -37,17 +38,17 @@ function NewsCard({
   read_time,
   link,
 }: {
-  image: StaticImageData;
+  image:{secure_url: string};
   type: string;
-  title: React.ReactNode;
+  title: string;
   date: string;
-  read_time: string;
+  read_time: number;
   link: string;
 }) {
   return (
     <div className="card bg-base-100 shadow-md w-full border">
       <div className="card-body p-4">
-        <Image src={image} alt="Transition News" className="w-full h-full object-contain" />
+        <Image src={image.secure_url} width={800} height={400} alt="Transition News" className="w-full h-full object-contain" />
         <h3 className="tracking-[.2rem] text-[#5C5C5C] font-medium py-2">{type}</h3>
         {/* <div className="size-14 rounded flex items-center justify-center">{icon}</div> */}
         <p className="text-[1.25rem] text-wrap pr-[0.7rem]">{title}</p>
@@ -128,7 +129,33 @@ export default function NewsSection(props: NewsSectionProps = {}) {
   const title = props?.title ?? "Featured news and articles";
   const subtitle = props?.subtitle ?? "News";
   const currentCardRef = useRef<HTMLDivElement | null>(null);
-
+    interface News {
+    _id: string;
+    name: string;
+    image: { secure_url: string };
+    title: string;
+    date: string;
+    read_time: number;
+    link: string;
+    type:string
+  }
+  const [pressData, setPressData]= useState<News[]>([])
+  
+  useEffect(()=>{
+   const fetchNews =async ()=>{
+    try {
+      const data = await getAllNews()
+      console.log("the data is", data)
+      setPressData(data.data);
+    } catch (error) {
+      console.log(error)
+      throw error      
+    }
+   }
+   fetchNews()
+  },[])
+ 
+  console.log("the press data is", pressData)
   useEffect(() => {
     // Set the initial ref to the first card
     if (newsCards.length > 0) {
@@ -225,9 +252,18 @@ export default function NewsSection(props: NewsSectionProps = {}) {
             </div>
             {/* <div className="carousel flex flex-nowrap gap-5 w-full"> */}
             <div className="carousel overflow-visible flex flex-nowrap gap-5 w-full  items-start overflow-x-auto scroll-smooth">
-              {newsCards.map((item) => (
+              {/* {newsCards.map((item) => (
                 <div
                   id={item.name}
+                  key={item.name}
+                  className="carousel-item w-[90%] md:w-[33.3%] lg:w-[22.2%] py-2 "
+                >
+                  {NewsCard(item)}
+                </div>
+              ))} */}
+                 {pressData.map((item) => (
+                <div
+                  id={item._id}
                   key={item.name}
                   className="carousel-item w-[90%] md:w-[33.3%] lg:w-[22.2%] py-2 "
                 >
