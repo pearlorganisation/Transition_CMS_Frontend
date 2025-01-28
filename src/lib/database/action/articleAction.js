@@ -1,7 +1,8 @@
 "use server"
+import { backendBaseUrl } from "../../../components/utils/backendUrl"
 export const getAllArticles = async () => {
     try {
-        const res = await fetch(`http://localhost:8000/api/v1/articles`);
+        const res = await fetch(`${backendBaseUrl}/articles`);
         if (!res.ok) {
             throw new Error(`Failed to fetch: ${res.status} ${res.statusText}`);
         }

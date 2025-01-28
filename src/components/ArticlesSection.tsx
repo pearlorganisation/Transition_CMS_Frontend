@@ -42,12 +42,14 @@ function ArticleCard({
   return (
     <div className="card bg-base-100 shadow-md w-full border ">
       <div className="card-body p-4">
-        <Image src={image.secure_url} width={30} height={30} alt="Transition VC Articles" className="w-full h-full object-contain" />
-        <p className="text-[1.25rem] text-wrap pr-[0.7rem]">{title}</p>
-        <h4 className="text-[#828282] font-thin py-2">{date} - {readTime}</h4>
-        <a href={link} className="text-2xl px-0 text-primary hover:underline">Read More</a>
+      <div className="w-1/3 mx-auto"></div>
+        <Image src={image.secure_url} width={50} quality={100} height={50} alt="Transition VC Articles" className="w-full h-full object-contain" />
       </div>
-    </div>
+      <p className="text-[1.25rem] text-wrap pr-[0.7rem]">{title}</p>
+      <h4 className="text-[#828282] font-thin py-2">{date} - {readTime} min</h4>
+      <a href={link} className="text-2xl px-0 text-primary hover:underline">Read More</a>
+  </div>
+  
   );
 }
 
