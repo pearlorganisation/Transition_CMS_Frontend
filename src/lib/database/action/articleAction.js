@@ -1,10 +1,14 @@
 "use server"
-
-export const getAllArticles =async()=>{
+export const getAllArticles = async () => {
     try {
-        const res = await fetch(`http://localhost:8000/api/v1/articles`)
-        return JSON.parse(JSON.stringify(res))
+        const res = await fetch(`http://localhost:8000/api/v1/articles`);
+        if (!res.ok) {
+            throw new Error(`Failed to fetch: ${res.status} ${res.statusText}`);
+        }
+        const data = await res.json(); // Parse JSON data
+        return data;
     } catch (error) {
-        return error
+        console.error("Error in getAllArticles:", error);
+        throw error; // Re-throw the error to handle it in the calling function
     }
-}
+};

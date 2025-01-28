@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Image, { StaticImageData } from "next/image";
+import { Suspense } from 'react'
+
 import { getAllArticles } from "../lib/database/action/articleAction";
 import {
   IconBuildingFactory2,
@@ -89,24 +91,41 @@ export default function ArticlesSection({props}: {props: ArticlesSectionProps|un
 
   const [articleData, setArticleData] = useState<Article[]>([]);
 
-  useEffect(() => {
-    const fetchArticles = async () => {
-      try {
-        const response = await fetch(`http://localhost:8000/api/v1/articles`);
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        const posts = await response.json();
-        console.log("the posts data", posts);
-        setArticleData(posts.data);
-      } catch (error) {
-        console.error("Failed to fetch articles:", error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchArticles =  async() => {
+  //     try {
+  //       // const response = await fetch(`http://localhost:8000/api/v1/articles`);
+  //       const response = await getAllArticles()
+  //       console.log("the response is",response)
+  //       if (!response) {
+  //         throw new Error('Network response was not ok');
+  //       }
+  //       // const posts = await response.json();
+  //       const posts = response;
+  //       console.log("the posts data", posts);
+  //       setArticleData(posts);
+  //     } catch (error) {
+  //       console.error("Failed to fetch articles:", error);
+  //     }
+  //   };
 
-    fetchArticles();
-  }, []);
-console.log("the article data is", articleData)
+  //   fetchArticles();
+  // }, []);
+
+useEffect(() => {
+  const fetchArticles = async () => {
+    try {
+      const posts = await getAllArticles();  
+      console.log("The posts data:", posts);
+      setArticleData(posts.data);
+    } catch (error) {
+      console.error("Failed to fetch articles:", error);
+    }
+  };
+
+  fetchArticles();
+}, []);
+  console.log("the article data is", articleData)
   
 // fetchArticleData()
   const showSubtitle = props?.showSubtitle ?? true;
@@ -115,6 +134,7 @@ console.log("the article data is", articleData)
   
     return (
     <>
+    
       <section className="min-h-[45vh] py-5 ">
         <div className="py-8 px-4 mx-auto max-w-screen-2xl sm:py-16 lg:px-6">
           {/* text-accent subtitle, followed by a heading paragraph, followed by a card. all stacked vertically */}
@@ -138,22 +158,13 @@ console.log("the article data is", articleData)
               </div>
             </div>
             <div className="carousel flex flex-nowrap gap-5 w-full">
-              {/* {articleCards.map((item) => (
-                <div
-                  id={item.name}
-                  key={item.name}
-                  className="carousel-item lg:w-[33.3%] py-2 "
-                >
-                  {ArticleCard(item)}
-                </div>
-              ))} */}
-               {articleData?.map((item) => (
+               {Array.isArray(articleData) && articleData?.map((item) => (
                 <div
                   id={item._id}
                   key={item.name}
                   className="carousel-item lg:w-[33.3%] py-2 "
                 >
-                  {ArticleCard(item)}
+                    {ArticleCard(item)}
                 </div>
               ))}
             </div>
