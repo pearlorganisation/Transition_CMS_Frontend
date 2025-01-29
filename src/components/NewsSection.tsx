@@ -1,7 +1,8 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import Image, { StaticImageData } from "next/image";
-import { getAllNews } from "../lib/database/action/newsAction"
+import { getAllNews } from "../lib/database/action/insightsAction"
+import moment from "moment"
 import {
   IconBuildingFactory2,
   IconCircleArrowDownFilled,
@@ -48,12 +49,19 @@ function NewsCard({
   return (
     <div className="card bg-base-100 shadow-md w-full border">
       <div className="card-body p-4">
-        <Image src={image.secure_url} width={800} height={400} alt="Transition News" className="w-full h-full object-contain" />
+        {/* <Image src={image.secure_url} width={800} height={400} alt="Transition News" className="w-full h-full object-contain" /> */}
+        <Image 
+          src={image.secure_url} 
+          width={800} 
+          height={50} // Reduce height
+          alt="Transition News" 
+          className="w-full object-center rounded-md"
+/>
         <h3 className="tracking-[.2rem] text-[#5C5C5C] font-medium py-2">{type}</h3>
         {/* <div className="size-14 rounded flex items-center justify-center">{icon}</div> */}
         <p className="text-[1.25rem] text-wrap pr-[0.7rem]">{title}</p>
         <h4 className="text-[#828282] font-thin py-2">
-          {date} - {read_time}
+          {moment(date).format("YYYY-MM-DD")} - {read_time} min read
         </h4>
         <a href={link} target="_blank" className="text-2xl px-0 text-primary hover:underline">
           Read More

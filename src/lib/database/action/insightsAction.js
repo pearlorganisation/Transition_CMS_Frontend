@@ -13,3 +13,27 @@ export const getAllArticles = async () => {
         throw error; // Re-throw the error to handle it in the calling function
     }
 };
+
+ 
+export const getAllNews = async () => {
+    try {
+        const res = await fetch(`${backendBaseUrl}/news`)
+        const data = await res.json()
+        return data;
+    } catch (error) {
+        console.log(error)
+        throw error
+    }
+}
+
+
+export const getAllPodcasts= async()=>{
+    try {
+        const res = await fetch(`${backendBaseUrl}/podcast`)
+        const data = await res.json();
+        return data
+    } catch (error) {
+        console.log(error)
+        throw error        
+    }
+}

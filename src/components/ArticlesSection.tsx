@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Image, { StaticImageData } from "next/image";
 import { Suspense } from 'react'
-
-import { getAllArticles } from "../lib/database/action/articleAction";
+import moment from "moment"
+import { getAllArticles } from "../lib/database/action/insightsAction";
 import {
   IconBuildingFactory2,
   IconCircleArrowDownFilled,
@@ -40,15 +40,25 @@ function ArticleCard({
   link: string;
 }) {
   return (
-    <div className="card bg-base-100 shadow-md w-full border ">
-      <div className="card-body p-4">
-      <div className="w-1/3 mx-auto"></div>
-        <Image src={image.secure_url} width={50} quality={100} height={50} alt="Transition VC Articles" className="w-full h-full object-contain" />
-      </div>
-      <p className="text-[1.25rem] text-wrap pr-[0.7rem]">{title}</p>
-      <h4 className="text-[#828282] font-thin py-2">{date} - {readTime} min</h4>
-      <a href={link} className="text-2xl px-0 text-primary hover:underline">Read More</a>
+   <div className="card bg-base-100 shadow-md w-full border p-2">
+  <div className="card-body p-4">
+    <div className="w-1/3 mx-auto"></div>
+    <Image
+      src={image.secure_url}
+      width={400} // Increased width
+      height={150} // Reduced height
+      quality={100}
+      alt="Transition VC Articles"
+      className="object-fill h-[150px] w-full rounded-lg"
+    />
   </div>
+  <p className="text-[1.25rem] text-wrap pr-[0.7rem] pl-3">{title}</p>
+  <h4 className="text-[#828282] font-thin py-2 pl-3">
+    {moment(date).format("YYYY-MM-DD")} - {readTime} min read
+  </h4>
+  <a href={link} className="text-2xl px-3 text-primary hover:underline mb-3">Read More</a>
+</div>
+
   
   );
 }
