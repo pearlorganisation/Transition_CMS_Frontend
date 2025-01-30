@@ -169,13 +169,14 @@ export default function NewsSection(props: NewsSectionProps = {}) {
     if (pressData.length > 0) {
       currentCardRef.current = document.getElementById(pressData[0]?._id) as HTMLDivElement;
     }
-  }, []);
+  }, [pressData]);
 
   const scrollToCard = (card: HTMLElement) => {
     card.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "start" });
   };
 
   const nextSlide = () => {
+    console.log("clicked right")
     if (currentCardRef.current) {
       const nextCard = currentCardRef.current.nextElementSibling as HTMLDivElement;
       if (nextCard) {
@@ -193,6 +194,7 @@ export default function NewsSection(props: NewsSectionProps = {}) {
   };
 
   const prevSlide = () => {
+    console.log("clicked left")
     if (currentCardRef.current) {
       const prevCard = currentCardRef.current.previousElementSibling as HTMLDivElement;
       if (prevCard) {
