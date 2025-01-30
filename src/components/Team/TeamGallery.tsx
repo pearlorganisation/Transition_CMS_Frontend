@@ -1,7 +1,9 @@
-import React from "react";
+"use client"
+import React, { useEffect, useMemo, useState } from "react";
 import Image, { StaticImageData } from "next/image";
 import { FaLinkedin } from "react-icons/fa";
 import ConnectWithUs from "@/components/TeamConnectCard";
+import { getAllTeamMembers } from "../../lib/database/action/teamAction"
 // import t_1 from "../../../public/img/team/team-1.png";
 
 // function importAll(r: __WebpackModuleApi.RequireContext) {
@@ -156,7 +158,7 @@ const MemberCard = ({ member }: { member: Member }) => {
     <a href={member.link} target="_blank" rel="noreferrer" className="block relative group">
       <div className="card bg-base-100  shadow-xl overflow-hidden">
         <figure>
-          <Image src={`/img/team/team-${member.id}.png`} alt={member.name} layout="responsive" width={384} height={256} />
+          <Image src={member?.image?.secure_url} alt={member.name} layout="responsive" width={384} height={256} />
         </figure>
         <div className="card-body">
           <h2 className="card-title">{member.name}</h2>
@@ -173,6 +175,20 @@ const MemberCard = ({ member }: { member: Member }) => {
 };
 
 export default function TeamGallery() {
+  const [teamsData,setTeamsData] = useState([])
+  useEffect(()=>{
+   const fetchTeams = async()=>{
+     
+      const res = await getAllTeamMembers()
+      setTeamsData(res.data);
+    }  
+    fetchTeams()
+  },[])
+   const executiveTeam = useMemo(() => teamsData.filter(member => member.type === "executive_team"), [teamsData]);
+  const generalPartners = useMemo(() => teamsData.filter(member => member.type === "general_partners"), [teamsData]);
+  const experts = useMemo(() => teamsData.filter(member => member.type === "experts"), [teamsData]);
+  console.log("all the filtered data is", executiveTeam, generalPartners, experts)
+  // console.log("the teams data is", teamsData)
   return (
     <section className="min-h-[45vh] py-5 flex flex-col">
       <div className=" h-max container mx-auto grow ">
@@ -180,10 +196,10 @@ export default function TeamGallery() {
 
         <div className="grid grid-flow-row grid-cols-1 md:grid-cols-4 place-content-center gap-12 ">
           {/*  </div> */}
-          {members.executive_team.map((member, idx) => (
+          {executiveTeam.map((member, idx) => (
             <>
               {idx === 2 && (
-                <div key={member.id} className="md:col-span-2 card w-full  bg-cyan-100 rounded-lg p-6">
+                <div key={member._id} className="md:col-span-2 card w-full  bg-cyan-100 rounded-lg p-6">
                   <ConnectWithUs />
                 </div>
               )}
@@ -196,7 +212,7 @@ export default function TeamGallery() {
       <div className=" h-max container mx-auto grow ">
         <h1 className="font-mono font-medium text-[2.5rem] my-14">Investment Committee</h1>
         <div className="grid grid-flow-row grid-cols-1 md:grid-cols-4 place-content-center gap-12 ">
-          {members.general_partners.map((member) => (
+          {generalPartners.map((member) => (
             <MemberCard key={member.name} member={member} />
           ))}
         </div>
@@ -205,7 +221,7 @@ export default function TeamGallery() {
       <div className=" h-max container mx-auto grow ">
         <h1 className="font-mono font-medium text-[2.5rem] my-14">Sector Experts & Advisors</h1>
         <div className="grid grid-flow-row grid-cols-1 md:grid-cols-4 place-content-center gap-12 ">
-          {members.experts.map((member) => (
+          {experts.map((member) => (
             <MemberCard key={member.name} member={member} />
           ))}
         </div>
