@@ -48,8 +48,13 @@ const PodcastListing = () => {
               <div className="grid grid-cols-10 p-4 rounded-lg">
                 {/* <div className="w-24 h-24 bg-black rounded-lg flex items-center justify-center flex-shrink-0"> */}
                 <a href={podcast?.link} target="_blank" rel="noopener noreferrer" className="col-span-10 md:col-span-2 cursor-pointer">
-                  <Image src={podcast?.image?.secure_url} width={300} height={150} alt="Podcast" className="max-w-full max-h-full col-span-10 md:col-span-2 p-[2rem]" />
-                </a>
+                  <Image
+                    src={podcast?.image?.secure_url}
+                    width={200}
+                    height={100}
+                    alt="Podcast"
+                    className="max-w-[200px] max-h-[150px] col-span-6 md:col-span-2 p-[1rem]"
+/>                </a>
                 {/* </div> */}
                 <div className="col-span-10 md:col-span-8 self-center">
                   <h2 className="text-xl font-semibold mb-2">{podcast?.title}</h2>

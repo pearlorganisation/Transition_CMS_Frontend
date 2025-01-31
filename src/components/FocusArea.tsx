@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
+import { getFocusArea } from "../lib/database/action/homeAction"
 // import Image from "next/image";
 import {
   IconBuildingFactory2,
@@ -183,7 +184,17 @@ const focusCards = [
 
 export default function FocusArea() {
   const currentCardRef = useRef<HTMLDivElement | null>(null);
-
+  const [focusData, setFocusData]= useState([]);
+useEffect(()=>{
+const fetchFocus = async()=>{
+  const data = await getFocusArea()
+  setFocusData(data.data);
+}
+fetchFocus()
+},[])
+console.log("the focus data is", focusData)
+  // focusData = await getFocusArea()
+  // console.log("the focus data is", focusData)
   useEffect(() => {
     // Set the initial ref to the first card
     if (focusCards.length > 0) {
@@ -252,9 +263,13 @@ export default function FocusArea() {
             <div className="min-h-72 md:w-3/4 md:pr-[20%]">
               <h3 className="tracking-[.6rem] text-[#5C5C5C] font-medium mb-6">Focus Area</h3>
               <div className="prose text-xl lg:text-3xl text-wrap">
-                <h3 className="font-light">
+                {/* <h3 className="font-light">
                   At Transition VC, we identify teams focused on technologies; the energy transition
                   divides into <span className="text-primary">Energy Demand</span> and{" "}
+                  <span className="text-primary">Energy Supply.</span>
+                </h3> */}
+                  <h3 className="font-light">
+                  {focusData[0]?.title} <span className="text-primary">Energy Demand</span> and{" "}
                   <span className="text-primary">Energy Supply.</span>
                 </h3>
               </div>
