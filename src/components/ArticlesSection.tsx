@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Image, { StaticImageData } from "next/image";
 import { Suspense } from 'react'
 import moment from "moment"
@@ -41,7 +41,7 @@ function ArticleCard({
 }) {
   return (
    <div className="card bg-base-100 shadow-md w-full border p-2">
-  <div className="card-body p-4">
+  <div className="card-body p-3">
     <div className="w-1/3 mx-auto"></div>
     <Image
       src={image.secure_url}
@@ -49,11 +49,11 @@ function ArticleCard({
       height={150} // Reduced height
       quality={100}
       alt="Transition VC Articles"
-      className="object-fill h-[150px] w-full rounded-lg"
+      className="object-center h-[160px] w-full rounded-lg"
     />
   </div>
-  <p className="text-[1.25rem] text-wrap pr-[0.7rem] pl-3">{title}</p>
-  <h4 className="text-[#828282] font-thin py-2 pl-3">
+  <p className="text-[1.25rem] text-wrap pr-[0.7rem] pl-4">{title}</p>
+  <h4 className="text-[#828282] font-thin py-2 pl-4">
     {moment(date).format("YYYY-MM-DD")} - {readTime} min read
   </h4>
   <a href={link} className="text-2xl px-3 text-primary hover:underline mb-3">Read More</a>
@@ -90,7 +90,7 @@ const articleCards = [
 ];
 
 export default function ArticlesSection({props}: {props: ArticlesSectionProps|undefined}) {
- 
+  const currentCardRef = useRef<HTMLDivElement | null>(null);
   interface Article {
     _id: string;
     name: string;
@@ -144,6 +144,67 @@ useEffect(() => {
   const title = props?.title ?? "Articles";
   const subtitle = props?.subtitle ?? "Articles";
   
+    useEffect(() => {
+      // Set the initial ref to the first card
+      if (articleData.length > 0) {
+        currentCardRef.current = document.getElementById(articleData[0].name) as HTMLDivElement;
+      }
+    }, []);
+
+    
+  const scrollToCard = (card: HTMLElement) => {
+    card.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "start" });
+  };
+  const nextSlide = () => {
+    console.log("clicked right")
+      if (currentCardRef.current) {
+        const nextCard = currentCardRef.current.nextElementSibling as HTMLDivElement;
+        if (nextCard) {
+          scrollToCard(nextCard);
+          currentCardRef.current = nextCard;
+        } else {
+          // If there's no next card, loop to the first one
+          const firstCard = document.getElementById(articleData[0].name) as HTMLDivElement;
+          if (firstCard) {
+            scrollToCard(firstCard);
+            currentCardRef.current = firstCard;
+          }
+        }
+      }
+    };
+
+  const prevSlide = () => {
+    if (currentCardRef.current) {
+      const prevCard = currentCardRef.current.previousElementSibling as HTMLDivElement;
+      if (prevCard) {
+        scrollToCard(prevCard);
+        currentCardRef.current = prevCard;
+      } else {
+        // If there's no previous card, loop to the last one
+        const lastCard = document.getElementById(
+          articleData[articleData.length - 1].name,
+        ) as HTMLDivElement;
+        if (lastCard) {
+          scrollToCard(lastCard);
+          currentCardRef.current = lastCard;
+        }
+      }
+    }
+  };
+
+    useEffect(() => {
+      const handleKeyDown = (event: KeyboardEvent) => {
+        if (event.key === "ArrowRight") {
+          nextSlide();
+        } else if (event.key === "ArrowLeft") {
+          prevSlide();
+        }
+      };
+  
+      window.addEventListener("keydown", handleKeyDown);
+      return () => window.removeEventListener("keydown", handleKeyDown);
+    });
+
     return (
     <>
     
@@ -160,10 +221,12 @@ useEffect(() => {
               </div>
               <div className="md:w-1/4 hidden md:flex md:flex-row-reverse ">
                 <div className="w-fit mt-8 flex gap-2">
-                  <button className="btn btn-circle btn-ghost">
+                  <button className="btn btn-circle btn-ghost"
+                  onClick={prevSlide}>
                     <IconCircleArrowLeft className="w-full h-full" />
                   </button>
-                  <button className="btn btn-circle btn-ghost">
+                  <button className="btn btn-circle btn-ghost"
+                  onClick={nextSlide}>
                     <IconCircleArrowRight className="w-full h-full" />
                   </button>
                 </div>

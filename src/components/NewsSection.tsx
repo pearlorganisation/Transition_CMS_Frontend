@@ -166,8 +166,8 @@ export default function NewsSection(props: NewsSectionProps = {}) {
   console.log("the press data is", pressData)
   useEffect(() => {
     // Set the initial ref to the first card
-    if (newsCards.length > 0) {
-      currentCardRef.current = document.getElementById(newsCards[0].name) as HTMLDivElement;
+    if (pressData.length > 0) {
+      currentCardRef.current = document.getElementById(pressData[0].name) as HTMLDivElement;
     }
   }, []);
 
@@ -176,6 +176,7 @@ export default function NewsSection(props: NewsSectionProps = {}) {
   };
 
   const nextSlide = () => {
+    console.log("clickd right")
     if (currentCardRef.current) {
       const nextCard = currentCardRef.current.nextElementSibling as HTMLDivElement;
       if (nextCard) {
@@ -183,7 +184,7 @@ export default function NewsSection(props: NewsSectionProps = {}) {
         currentCardRef.current = nextCard;
       } else {
         // If there's no next card, loop to the first one
-        const firstCard = document.getElementById(newsCards[0].name) as HTMLDivElement;
+        const firstCard = document.getElementById(pressData[0].name) as HTMLDivElement;
         if (firstCard) {
           scrollToCard(firstCard);
           currentCardRef.current = firstCard;
@@ -201,7 +202,7 @@ export default function NewsSection(props: NewsSectionProps = {}) {
       } else {
         // If there's no previous card, loop to the last one
         const lastCard = document.getElementById(
-          newsCards[newsCards.length - 1].name,
+          pressData[pressData.length - 1].name,
         ) as HTMLDivElement;
         if (lastCard) {
           scrollToCard(lastCard);
@@ -269,9 +270,9 @@ export default function NewsSection(props: NewsSectionProps = {}) {
                   {NewsCard(item)}
                 </div>
               ))} */}
-                 {pressData.map((item) => (
+                 {Array.isArray(pressData) && pressData?.map((item) => (
                 <div
-                  id={item._id}
+                  id={item.name}
                   key={item.name}
                   className="carousel-item w-[90%] md:w-[33.3%] lg:w-[22.2%] py-2 "
                 >
