@@ -147,10 +147,13 @@ const members = {
 };
 
 interface Member {
-  id: number;
+  _id:string;
   name: string;
   bio: string;
   link: string;
+  image:{secure_url: string}
+  type:string;
+
 }
 
 const MemberCard = ({ member }: { member: Member }) => {
@@ -175,7 +178,7 @@ const MemberCard = ({ member }: { member: Member }) => {
 };
 
 export default function TeamGallery() {
-  const [teamsData,setTeamsData] = useState([])
+  const [teamsData, setTeamsData] = useState<Member[]>([])
   useEffect(()=>{
    const fetchTeams = async()=>{
      
@@ -184,7 +187,7 @@ export default function TeamGallery() {
     }  
     fetchTeams()
   },[])
-   const executiveTeam = useMemo(() => teamsData.filter(member => member.type === "executive_team"), [teamsData]);
+  const executiveTeam = useMemo(() => teamsData.filter(member => member.type === "executive_team"), [teamsData]);
   const generalPartners = useMemo(() => teamsData.filter(member => member.type === "general_partners"), [teamsData]);
   const experts = useMemo(() => teamsData.filter(member => member.type === "experts"), [teamsData]);
   console.log("all the filtered data is", executiveTeam, generalPartners, experts)
@@ -196,7 +199,7 @@ export default function TeamGallery() {
 
         <div className="grid grid-flow-row grid-cols-1 md:grid-cols-4 place-content-center gap-12 ">
           {/*  </div> */}
-          {executiveTeam.map((member, idx) => (
+          {executiveTeam.map((member: Member, idx) => (
             <>
               {idx === 2 && (
                 <div key={member._id} className="md:col-span-2 card w-full  bg-cyan-100 rounded-lg p-6">
@@ -212,7 +215,7 @@ export default function TeamGallery() {
       <div className=" h-max container mx-auto grow ">
         <h1 className="font-mono font-medium text-[2.5rem] my-14">Investment Committee</h1>
         <div className="grid grid-flow-row grid-cols-1 md:grid-cols-4 place-content-center gap-12 ">
-          {generalPartners.map((member) => (
+          {generalPartners.map((member: Member) => (
             <MemberCard key={member.name} member={member} />
           ))}
         </div>
@@ -221,7 +224,7 @@ export default function TeamGallery() {
       <div className=" h-max container mx-auto grow ">
         <h1 className="font-mono font-medium text-[2.5rem] my-14">Sector Experts & Advisors</h1>
         <div className="grid grid-flow-row grid-cols-1 md:grid-cols-4 place-content-center gap-12 ">
-          {experts.map((member) => (
+          {experts.map((member: Member) => (
             <MemberCard key={member.name} member={member} />
           ))}
         </div>
