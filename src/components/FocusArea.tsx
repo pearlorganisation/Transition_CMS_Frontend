@@ -46,7 +46,7 @@ function FocusCard({
           />
         </div>
         
-        <p className="text-2xl text-wrap mt-4">{title}</p>
+        <p className="text-2xl text-wrap mt-4 min-h-16">{title}</p>
         
         <div className={`collapse ${isExpanded ? "collapse-open" : ""}`}>
           <div className="collapse-content">

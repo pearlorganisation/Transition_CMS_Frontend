@@ -6,12 +6,12 @@ import { IconCircleArrowRightFilled } from "@tabler/icons-react";
 import sq_matel from "../../public/img/investments/sq_matel.png";
 import sq_emo from "../../public/img/investments/sq_emo.png";
 import sq_protonas from "../../public/img/investments/sq_protonas.png";
-
+import parse from 'html-react-parser'
 interface InvestmentCardInterface {
   name: string;
   link: string;
-  body: ReactElement;
-  image: StaticImageData;
+  body: string;
+  image: {secure_url: string};
 }
 
 function InvestmentCard({ name, link, body, image }: InvestmentCardInterface) {
@@ -22,7 +22,7 @@ function InvestmentCard({ name, link, body, image }: InvestmentCardInterface) {
           <div className="grid grid-flow-row grid-cols-1 md:grid-cols-3 place-content-center gap-8">
             <a href={link} target="_blank" className="flex justify-center items-center">
               <Image
-                src={image}
+                src={image.secure_url}
                 alt="Matel"
                 width={180}
                 height={38}
@@ -31,8 +31,8 @@ function InvestmentCard({ name, link, body, image }: InvestmentCardInterface) {
               />
             </a>
             <div className="col-span-2">
-              <article className="prose lg:prose-2xl leading-6">{body}</article>
-              <Link href={`/portfolio/${name}`}>
+              <article className="prose lg:prose-2xl leading-6">{parse(body)}</article>
+              <Link href={`/portfolio/${name.toLowerCase()}`}>
                 <span className="flex items-center gap-2 text-2xl text-primary mt-8">
                   Learn why we invested
                   <IconCircleArrowRightFilled className="w-[1em] h-[1em] inline-block align-text-bottom" />
@@ -85,12 +85,16 @@ const investments = [
   },
 ];
 
-export default function InvestmentHighlightSections() {
+export default function InvestmentHighlightSections({data}) {
+  console.log("the data on highlights section is", data)
   return (
     <>
       <div className="divide-y divide-[#ADE9E4]">
-        {investments.map((investment) => (
+        {/* {investments.map((investment) => (
           <InvestmentCard key={investment.name} name={investment.name} link={investment.link} body={investment.body} image={investment.image} />
+        ))} */}
+          {data.map((investment) => (
+          <InvestmentCard key={investment.name} name={investment.name} link={investment.link} body={investment.overview} image={investment.image} />
         ))}
       </div>
     </>
