@@ -84,13 +84,17 @@ function FocusCard({
 export default function FocusArea() {
   const currentCardRef = useRef<HTMLDivElement | null>(null);
   const [focusData, setFocusData]= useState([]);
-useEffect(()=>{
-const fetchFocus = async()=>{
-  const data = await getFocusArea()
-  setFocusData(data.data);
-}
-fetchFocus()
-},[])
+useEffect(() => {
+  const fetchFocus = async () => {
+    try {
+      const data = await getFocusArea();
+      setFocusData(data.data);
+    } catch (error) {
+      console.error("Error fetching focus area data:", error);
+    }
+  };
+  fetchFocus();
+}, []);
 console.log("the focus data is", focusData)
   // focusData = await getFocusArea()
   // console.log("the focus data is", focusData)
