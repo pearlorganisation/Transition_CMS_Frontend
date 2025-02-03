@@ -273,7 +273,7 @@ export default function NewsSection(props: NewsSectionProps = {}) {
               ))} */}
                  {Array.isArray(pressData) && pressData?.map((item) => (
                 <div
-                  id={item.name}
+                  id={item._id}
                   key={item.name}
                   className="carousel-item w-[90%] md:w-[33.3%] lg:w-[22.2%] py-2 "
                 >

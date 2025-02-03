@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-import React, { useEffect, useRef, useState } from "react";
 import Image, { StaticImageData } from "next/image";
 import { Suspense } from 'react'
 import moment from "moment"
@@ -205,67 +204,6 @@ useEffect(() => {
   const showSubtitle = props?.showSubtitle ?? true;
   const title = props?.title ?? "Articles";
   const subtitle = props?.subtitle ?? "Articles";
-  
-    useEffect(() => {
-      // Set the initial ref to the first card
-      if (articleData.length > 0) {
-        currentCardRef.current = document.getElementById(articleData[0].name) as HTMLDivElement;
-      }
-    }, []);
-
-    
-  const scrollToCard = (card: HTMLElement) => {
-    card.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "start" });
-  };
-  const nextSlide = () => {
-    console.log("clicked right")
-      if (currentCardRef.current) {
-        const nextCard = currentCardRef.current.nextElementSibling as HTMLDivElement;
-        if (nextCard) {
-          scrollToCard(nextCard);
-          currentCardRef.current = nextCard;
-        } else {
-          // If there's no next card, loop to the first one
-          const firstCard = document.getElementById(articleData[0].name) as HTMLDivElement;
-          if (firstCard) {
-            scrollToCard(firstCard);
-            currentCardRef.current = firstCard;
-          }
-        }
-      }
-    };
-
-  const prevSlide = () => {
-    if (currentCardRef.current) {
-      const prevCard = currentCardRef.current.previousElementSibling as HTMLDivElement;
-      if (prevCard) {
-        scrollToCard(prevCard);
-        currentCardRef.current = prevCard;
-      } else {
-        // If there's no previous card, loop to the last one
-        const lastCard = document.getElementById(
-          articleData[articleData.length - 1].name,
-        ) as HTMLDivElement;
-        if (lastCard) {
-          scrollToCard(lastCard);
-          currentCardRef.current = lastCard;
-        }
-      }
-    }
-  };
-
-    useEffect(() => {
-      const handleKeyDown = (event: KeyboardEvent) => {
-        if (event.key === "ArrowRight") {
-          nextSlide();
-        } else if (event.key === "ArrowLeft") {
-          prevSlide();
-        }
-      };
-  
-      window.addEventListener("keydown", handleKeyDown);
-      return () => window.removeEventListener("keydown", handleKeyDown);
-    });
 
     return (
     <>
