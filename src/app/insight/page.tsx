@@ -8,18 +8,7 @@ import PodcastListing from "../../components/PodcastSection";
 import NewsletterSubscription from "../../components/NewsletterSubscription";
 import TabList from "@/components/TabList"; 
 import bg_impact from "../../../public/img/bg-impact.png";
-import rec_iic from "../../../public/img/impact/rec_iic.png";
-import rec_pri from "../../../public/img/impact/rec_pri.png";
-import sdg13 from "../../../public/img/impact/sdg-13.png";
-import sdg7 from "../../../public/img/impact/sdg-07.png";
-import sdg8 from "../../../public/img/impact/sdg-08.png";
-import sdg11 from "../../../public/img/impact/sdg-11.png";
-import sdg17 from "../../../public/img/impact/sdg-17.png";
-import sdg12 from "../../../public/img/impact/sdg-12.png";
-import sdg6 from "../../../public/img/impact/sdg-06.png";
-import sdg10 from "../../../public/img/impact/sdg-10.png";
-import sdg9 from "../../../public/img/impact/sdg-09.png";
-import sdg_logo from "../../../public/img/impact/goals.png";
+
 
 const PolicyItem = ({ logo, title, description }: { logo: string; title: string; description: string }) => (
   <div className="flex items-start space-x-4 mb-8">
@@ -48,6 +37,44 @@ export default function Insights() {
     Podcast: useRef<HTMLDivElement>(null),
     Newsletter: useRef<HTMLDivElement>(null),
   };
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [insightsData,setInsightData] =  useState<any>(null);;
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL_BACKEND}/blogs`);
+
+        if (!response.ok) {
+          throw new Error(`Error ${response.status}: ${response.statusText}`);
+        }
+
+        const result = await response.json();
+        const map = new Map();
+        result?.data?.forEach((element:any) => {
+          if(!map?.has(element?.blogType))
+          {
+            map.set(`${element.blogType}`,[{...element}])
+          }
+          else{
+            const currentArray = map?.get(element?.blogType);
+            currentArray.push(element);
+          }
+        });
+        setInsightData(map);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "Something went wrong");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   useEffect(() => {
     const navbar = document.querySelector('.navbar') as HTMLElement;
@@ -101,53 +128,9 @@ export default function Insights() {
     </div>
   );
 
-  const esgData = [
-    {
-      letter: "E",
-      title: "nvironmental Impact",
-      content:
-        "With the momentum of our current portfolio and future projections, we anticipate enabling a CO2 offset of approximately 40 million tons, marking a significant stride toward a greener, more sustainable planet.",
-    },
-    {
-      letter: "S",
-      title: "ocial Impact",
-      content:
-        "Our commitment to empowering the workforce is evident in the ~200 blue-collar jobs created through our existing portfolio. Looking ahead, we project this number to soar, generating over 3,000 direct jobs and 10,000 indirect opportunities across our future investments. Additionally, 10% of our portfolio companies proudly feature women in leadership roles, championing diversity and inclusion at the highest levels.",
-    },
-    {
-      letter: "G",
-      title: "overnance Initiatives",
-      content:
-        "We provide support to our portfolio companies, tailored to their unique stage of development. By taking active board roles and engaging regularly with our startups, we ensure the integration of robust ESG practices and principles, fostering a culture of responsible governance across all operations.",
-    },
-  ];
 
-  const policies = [
-    {
-      logo: rec_pri.src,
-      title: "Transition VC Joins the Ranks of UNPRI Signatories!",
-      description:
-        "We're excited to announce that Transition VC is now a proud member of UNPRI, reinforcing our commitment to integrating sustainability and ethical practices into everything we do.",
-    },
-    {
-      logo: rec_iic.src,
-      title: "Transition VC Joins the IIC Community!",
-      description:
-        "We're thrilled to share that Transition VC is now a member of the Indian Impact Investors Council (IIC), strengthening our dedication to driving positive social and environmental change through impactful investments.",
-    },
-  ];
 
-  const sdgs = [
-    { number: 13, color: "bg-[#3F7E44]", imagePath: sdg13.src },
-    { number: 7, color: "bg-[#FCC30B]", imagePath: sdg7.src },
-    { number: 8, color: "bg-[#A21942]", imagePath: sdg8.src },
-    { number: 11, color: "bg-[#FD6925]", imagePath: sdg11.src },
-    { number: 17, color: "bg-[#19486A]", imagePath: sdg17.src },
-    { number: 12, color: "bg-[#BF8B2E]", imagePath: sdg12.src },
-    { number: 6, color: "bg-[#26BDE2]", imagePath: sdg6.src },
-    { number: 10, color: "bg-[#DD1367]", imagePath: sdg10.src },
-    { number: 9, color: "bg-[#FD6925]", imagePath: sdg9.src },
-  ];
+
 
   return (
     <>
@@ -158,13 +141,14 @@ export default function Insights() {
         onTabClick={scrollToSection as any}
         navbarHeight={navbarHeight}
       />
-      {/* Mission Section */}
-      <div
+{insightsData &&<>
+{/* Mission Section */}
+<div
         id="Articles"
         ref={sectionRefs.Articles}
         className="container mx-auto px-4 py-8 pt-16 min-h-[45vh] grid  content-center"
       >
-        <ArticlesSection props={{showSubtitle: false} as ArticlesSectionProps} />
+        <ArticlesSection props={{showSubtitle: false,articleCards:insightsData?.get('ARTICLES')} as ArticlesSectionProps}  />
       </div>
       {/* Press Section */}
       <div
@@ -172,7 +156,7 @@ export default function Insights() {
         ref={sectionRefs.Press}
         className="container mx-auto px-4 py-8 pt-16 min-h-[45vh] grid  content-center"
       >
-        <NewsSection showSubtitle={false}  title= "Press" />
+        <NewsSection newsCards={insightsData?.get('PRESS')} showSubtitle={false}  title= "Press" />
       </div>
       {/* ESG Section  */}
       <div
@@ -180,8 +164,10 @@ export default function Insights() {
         ref={sectionRefs.Podcast}
         className="container mx-auto px-4 py-8 pt-16 min-h-[45vh] grid  content-center"
       >
-        <PodcastListing/>
+        <PodcastListing data = {insightsData?.get('PODCAST')}/>
       </div>
+
+</>   }   
       {/* Newsletter Section */}
       <div ref={sectionRefs.Newsletter} id="Newsletter" className="mt-16"><NewsletterSubscription  /></div>
     </>
