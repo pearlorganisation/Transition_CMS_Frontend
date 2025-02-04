@@ -25,7 +25,7 @@ function ArticleCard(item:{
   return (
     <div className="card bg-base-100 shadow-md w-full border ">
       <div className="card-body p-4">
-        <Image src={item.icon.secure_url} width={400} height={400} alt = {item.title} className="w-full h-full object-contain" />
+        <Image src={item.icon.secure_url} width={250} height={100} alt = {item.title} className="w-full h-[200px] object-contain" />
         <p className="text-[1.25rem] text-wrap pr-[0.7rem]">{item.title}</p>
         <h4 className="text-[#828282] font-thin py-2">{item.title}</h4>
         {item?.link && <a href={item.link} className="text-2xl px-0 text-primary hover:underline">Read More</a>}
