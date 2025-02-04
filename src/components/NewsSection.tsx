@@ -29,113 +29,100 @@ export interface NewsSectionProps {
   subtitle?: string;
   showSubtitle?: boolean;
   title?: string;
+  newsCards:any;
 }
 
-function NewsCard({
-  image,
-  type,
-  title,
-  date,
-  read_time,
-  link,
-}: {
-  image:{secure_url: string};
-  type: string;
-  title: string;
-  date: string;
-  read_time: number;
-  link: string;
-}) {
+function NewsCard(item:any) {
   return (
     <div className="card bg-base-100 shadow-md w-full border">
       <div className="card-body p-4">
-        {/* <Image src={image.secure_url} width={800} height={400} alt="Transition News" className="w-full h-full object-contain" /> */}
-        <Image 
-          src={image.secure_url} 
-          width={800} 
-          height={50} // Reduce height
-          alt="Transition News" 
-          className="w-full object-center rounded-md"
-/>
-        <h3 className="tracking-[.2rem] text-[#5C5C5C] font-medium py-2">{type}</h3>
+        <Image src={item.icon.secure_url} height={200} width={200}   alt="Transition News" className="w-full h-full object-contain" />
+        <h3 className="tracking-[.2rem] text-[#5C5C5C] font-medium py-2">{item?.shortTitle}</h3>
         {/* <div className="size-14 rounded flex items-center justify-center">{icon}</div> */}
-        <p className="text-[1.25rem] text-wrap pr-[0.7rem]">{title}</p>
+        <p className="text-[1.25rem] text-wrap pr-[0.7rem]">{item.title}</p>
         <h4 className="text-[#828282] font-thin py-2">
-          {moment(date).format("YYYY-MM-DD")} - {read_time} min read
+          {item.dateMetaData}
         </h4>
-        <a href={link} target="_blank" className="text-2xl px-0 text-primary hover:underline">
+        {item?.link &&<a href={item.link} target="_blank" className="text-2xl px-0 text-primary hover:underline">
           Read More
-        </a>
+        </a>}
+
+        {//change this according to blog page
+          !item?.link && <a href={"/"} target="_blank" className="text-2xl px-0 text-primary hover:underline">
+          Read More
+        </a>}
+        
       </div>
     </div>
   );
 }
 
-const newsCards = [
-  {
-    name: "news-one",
-    image: img_news1,
-    type: "NEWS",
-    title: <>Transition VC holds hydrogen summit in partnership with IEEE</>,
-    date: "Aug 22, 2024",
-    read_time: "4 min read",
-    link: "https://mediabrief.com/transition-vc-and-ieee-partnered-and-hosted-the-marquee-summit/",
-  },
-  {
-    name: "news-two",
-    image: img_news2,
-    type: "INVESTMENT",
-    title: <>Low-cost hydrogen cell startup Protonas bags funding in round led by Transition VC</>,
-    date: "Jul 18, 2024",
-    read_time: "6 min read",
-    link: "https://economictimes.indiatimes.com/tech/funding/low-cost-hydrogen-cell-startup-protonas-bags-funding-in-round-led-by-transition-vc/articleshow/111815713.cms?from=mdr",
-  },
-  {
-    name: "news-three",
-    image: img_news3,
-    type: "ARTICLE",
-    title: <>VCs chase auto parts makers to hitch a ride on EV journey</>,
-    date: "Jul 01, 2024",
-    read_time: "5 min read",
-    link: "https://economictimes.indiatimes.com/tech/startups/vcs-chase-auto-parts-makers-to-hitch-a-ride-on-ev-journey/articleshow/111385994.cms?from=mdr",
-  },
-  {
-    name: "news-four",
-    image: img_news4,
-    type: "INVESTMENT",
-    title: <>EV components maker Matel raises $4 million in funding</>,
-    date: "May 16, 2024",
-    read_time: "4 min read",
-    link: "https://www.cnbctv18.com/business/startup/pune-based-ev-startup-matel-raises-4-million-in-series-a-to-proprel-expansion-19412852.htm",
-  },
-  {
-    name: "news-five",
-    image: img_news5,
-    type: "NEWS",
-    title: <>Transition VC partners with IEEE to Launch “Net Zero Warriors” Initiative</>,
-    date: "July 14, 2023",
-    read_time: "4 min read",
-    link: "https://www.financialexpress.com/jobs-career/education-transition-vc-partners-with-ieee-to-launch-net-zero-warriors-initiativespan-stylefont-size-11pt-font-family-cabin-sans-serif-background-color-transparent-font-weight-700-font-variant-numeric-normal-fo-3170356/",
-  },
-  {
-    name: "news-six",
-    image: img_news6,
-    type: "INVESTMENT",
-    title: (
-      <>
-        Former MD Of C&S Electric Ltd., Mr. Anuj Khanna Joined Transition VC As LP & Sector Expert
-      </>
-    ),
-    date: "May 2, 2023",
-    read_time: "4 min read",
-    link: "https://www.vccircle.com/energytransition-focused-vc-onboards-new-lp-for-maiden-fund",
-  },
-];
+// const newsCards = [
+//   {
+//     name: "news-one",
+//     image: img_news1,
+//     type: "NEWS",
+//     title: <>Transition VC holds hydrogen summit in partnership with IEEE</>,
+//     date: "Aug 22, 2024",
+//     read_time: "4 min read",
+//     link: "https://mediabrief.com/transition-vc-and-ieee-partnered-and-hosted-the-marquee-summit/",
+//   },
+//   {
+//     name: "news-two",
+//     image: img_news2,
+//     type: "INVESTMENT",
+//     title: <>Low-cost hydrogen cell startup Protonas bags funding in round led by Transition VC</>,
+//     date: "Jul 18, 2024",
+//     read_time: "6 min read",
+//     link: "https://economictimes.indiatimes.com/tech/funding/low-cost-hydrogen-cell-startup-protonas-bags-funding-in-round-led-by-transition-vc/articleshow/111815713.cms?from=mdr",
+//   },
+//   {
+//     name: "news-three",
+//     image: img_news3,
+//     type: "ARTICLE",
+//     title: <>VCs chase auto parts makers to hitch a ride on EV journey</>,
+//     date: "Jul 01, 2024",
+//     read_time: "5 min read",
+//     link: "https://economictimes.indiatimes.com/tech/startups/vcs-chase-auto-parts-makers-to-hitch-a-ride-on-ev-journey/articleshow/111385994.cms?from=mdr",
+//   },
+//   {
+//     name: "news-four",
+//     image: img_news4,
+//     type: "INVESTMENT",
+//     title: <>EV components maker Matel raises $4 million in funding</>,
+//     date: "May 16, 2024",
+//     read_time: "4 min read",
+//     link: "https://www.cnbctv18.com/business/startup/pune-based-ev-startup-matel-raises-4-million-in-series-a-to-proprel-expansion-19412852.htm",
+//   },
+//   {
+//     name: "news-five",
+//     image: img_news5,
+//     type: "NEWS",
+//     title: <>Transition VC partners with IEEE to Launch “Net Zero Warriors” Initiative</>,
+//     date: "July 14, 2023",
+//     read_time: "4 min read",
+//     link: "https://www.financialexpress.com/jobs-career/education-transition-vc-partners-with-ieee-to-launch-net-zero-warriors-initiativespan-stylefont-size-11pt-font-family-cabin-sans-serif-background-color-transparent-font-weight-700-font-variant-numeric-normal-fo-3170356/",
+//   },
+//   {
+//     name: "news-six",
+//     image: img_news6,
+//     type: "INVESTMENT",
+//     title: (
+//       <>
+//         Former MD Of C&S Electric Ltd., Mr. Anuj Khanna Joined Transition VC As LP & Sector Expert
+//       </>
+//     ),
+//     date: "May 2, 2023",
+//     read_time: "4 min read",
+//     link: "https://www.vccircle.com/energytransition-focused-vc-onboards-new-lp-for-maiden-fund",
+//   },
+// ];
 
-export default function NewsSection(props: NewsSectionProps = {}) {
+export default function NewsSection(props: NewsSectionProps) {
   const showSubtitle = props?.showSubtitle ?? true;
   const title = props?.title ?? "Featured news and articles";
   const subtitle = props?.subtitle ?? "News";
+  const newsCards = props?.newsCards || [];
   const currentCardRef = useRef<HTMLDivElement | null>(null);
     interface News {
     _id: string;
@@ -262,19 +249,10 @@ export default function NewsSection(props: NewsSectionProps = {}) {
             </div>
             {/* <div className="carousel flex flex-nowrap gap-5 w-full"> */}
             <div className="carousel overflow-visible flex flex-nowrap gap-5 w-full  items-start overflow-x-auto scroll-smooth">
-              {/* {newsCards.map((item) => (
+              {newsCards.map((item:any) => (
                 <div
-                  id={item.name}
-                  key={item.name}
-                  className="carousel-item w-[90%] md:w-[33.3%] lg:w-[22.2%] py-2 "
-                >
-                  {NewsCard(item)}
-                </div>
-              ))} */}
-                 {Array.isArray(pressData) && pressData?.map((item) => (
-                <div
-                  id={item._id}
-                  key={item.name}
+                  id={item?._id}
+                  key={item?._id}
                   className="carousel-item w-[90%] md:w-[33.3%] lg:w-[22.2%] py-2 "
                 >
                   {NewsCard(item)}
