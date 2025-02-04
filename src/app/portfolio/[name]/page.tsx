@@ -10,8 +10,7 @@ import sq_gruhas from "../../../../public/img/investments/sq_gruhas.png";
 import sq_millennium from "../../../../public/img/investments/sq_millennium.png";
 import { useRouter, useSearchParams } from "next/navigation";
 import { backendBaseUrl } from "@/components/utils/backendUrl";
- 
- 
+  
  
 const co_investors = { gruhas: sq_gruhas, millennium: sq_millennium };
 

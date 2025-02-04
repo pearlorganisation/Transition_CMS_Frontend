@@ -8,6 +8,8 @@ import PodcastListing from "../../components/PodcastSection";
 import NewsletterSubscription from "../../components/NewsletterSubscription";
 import TabList from "@/components/TabList"; 
 import bg_impact from "../../../public/img/bg-impact.png";
+import "dotenv/config" 
+import { backendBaseUrl } from "@/components/utils/backendUrl";
 
 
 const PolicyItem = ({ logo, title, description }: { logo: string; title: string; description: string }) => (
@@ -47,8 +49,8 @@ export default function Insights() {
         setLoading(true);
         setError(null);
 
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL_BACKEND}/blogs`);
-
+        // const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL_BACKEND}/blogs`);
+        const response = await fetch(`${backendBaseUrl}/blogs`);
         if (!response.ok) {
           throw new Error(`Error ${response.status}: ${response.statusText}`);
         }
@@ -122,11 +124,9 @@ export default function Insights() {
     }
   };
 
-  const content = (
-    <div>
+  const content =`<div>
       News, announcements, insights, and trends on climate.
-    </div>
-  );
+    </div>`
 
 
 
@@ -143,7 +143,7 @@ export default function Insights() {
       />
 {insightsData &&<>
 {/* Mission Section */}
-<div
+     <div
         id="Articles"
         ref={sectionRefs.Articles}
         className="container mx-auto px-4 py-8 pt-16 min-h-[45vh] grid  content-center"

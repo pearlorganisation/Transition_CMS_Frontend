@@ -1,8 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import Image, { StaticImageData } from "next/image";
-import { Suspense } from 'react'
-import moment from "moment"
-import { getAllArticles } from "../lib/database/action/insightsAction";
 import {
   IconCircleArrowLeft,
   IconCircleArrowRight,
@@ -67,60 +64,19 @@ function ArticleCard(item:{
 // ];
 
 export default function ArticlesSection({props}: {props: ArticlesSectionProps|undefined}) {
+  const showSubtitle = props?.showSubtitle ?? true;
+  const title = props?.title ?? "Articles";
+  const subtitle = props?.subtitle ?? "Articles";
+  const articleCards = props?.articleCards??[];
+  console.log("the artcilecards are", articleCards);
   const currentCardRef = useRef<HTMLDivElement | null>(null);
-  interface Article {
-    _id: string;
-    name: string;
-    image: { secure_url: string };
-    title: string;
-    date: string;
-    readTime: number;
-    link: string;
-  }
-
-  const [articleData, setArticleData] = useState<Article[]>([]);
-
-  // useEffect(() => {
-  //   const fetchArticles =  async() => {
-  //     try {
-  //       // const response = await fetch(`http://localhost:8000/api/v1/articles`);
-  //       const response = await getAllArticles()
-  //       console.log("the response is",response)
-  //       if (!response) {
-  //         throw new Error('Network response was not ok');
-  //       }
-  //       // const posts = await response.json();
-  //       const posts = response;
-  //       console.log("the posts data", posts);
-  //       setArticleData(posts);
-  //     } catch (error) {
-  //       console.error("Failed to fetch articles:", error);
-  //     }
-  //   };
-
-  //   fetchArticles();
-  // }, []);
-
-useEffect(() => {
-  const fetchArticles = async () => {
-    try {
-      const posts = await getAllArticles();  
-      console.log("The posts data:", posts);
-      setArticleData(posts.data);
-    } catch (error) {
-      console.error("Failed to fetch articles:", error);
-    }
-  };
-
-  fetchArticles();
-}, []);
-  console.log("the article data is", articleData)
-    useEffect(() => {
+  
+   useEffect(() => {
       // Set the initial ref to the first card
-      if (articleData.length > 0) {
-        currentCardRef.current = document.getElementById(articleData[0]?._id) as HTMLDivElement;
+      if (articleCards.length > 0) {
+        currentCardRef.current = document.getElementById(articleCards[0]._id) as HTMLDivElement;
       }
-    }, [articleData]);
+    }, [articleCards]);
   
     const scrollToCard = (card: HTMLElement) => {
       card.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "start" });
@@ -135,7 +91,7 @@ useEffect(() => {
           currentCardRef.current = nextCard;
         } else {
           // If there's no next card, loop to the first one
-          const firstCard = document.getElementById(articleData[0]._id) as HTMLDivElement;
+          const firstCard = document.getElementById(articleCards[0]._id) as HTMLDivElement;
           if (firstCard) {
             scrollToCard(firstCard);
             currentCardRef.current = firstCard;
@@ -154,7 +110,7 @@ useEffect(() => {
         } else {
           // If there's no previous card, loop to the last one
           const lastCard = document.getElementById(
-            articleData[articleData.length - 1]._id,
+            articleCards[articleCards.length - 1]._id,
           ) as HTMLDivElement;
           if (lastCard) {
             scrollToCard(lastCard);
@@ -176,15 +132,8 @@ useEffect(() => {
       window.addEventListener("keydown", handleKeyDown);
       return () => window.removeEventListener("keydown", handleKeyDown);
     });
-  
-// fetchArticleData()
-  const showSubtitle = props?.showSubtitle ?? true;
-  const title = props?.title ?? "Articles";
-  const subtitle = props?.subtitle ?? "Articles";
-  const articleCards = props?.articleCards??[];
     return (
     <>
-    
       <section className="min-h-[45vh] py-5 ">
         <div className="py-8 px-4 mx-auto max-w-screen-2xl sm:py-16 lg:px-6">
           {/* text-accent subtitle, followed by a heading paragraph, followed by a card. all stacked vertically */}
@@ -203,20 +152,21 @@ useEffect(() => {
                     <IconCircleArrowLeft className="w-full h-full" />
                   </button>
                   <button className="btn btn-circle btn-ghost"
-                  onClick={nextSlide}>
+                  onClick={nextSlide}
+                  >
                     <IconCircleArrowRight className="w-full h-full" />
                   </button>
                 </div>
               </div>
             </div>
             <div className="carousel flex flex-nowrap gap-5 w-full">
-               {Array.isArray(articleData) && articleData?.map((item) => (
+              {articleCards?.map((item) => (
                 <div
-                  id={item._id}
-                  key={item.name}
+                  id={item?._id}
+                  key={item?._id}
                   className="carousel-item lg:w-[33.3%] py-2 "
                 >
-                    {ArticleCard(item)}
+                  {ArticleCard(item)}
                 </div>
               ))}
             </div>
