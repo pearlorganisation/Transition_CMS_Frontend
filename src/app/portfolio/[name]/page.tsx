@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import AbstractHero from "@/components/AbstractHero";
 import NewsSection from "@/components/NewsSection";
@@ -8,11 +8,47 @@ import { PiSparkleFill, PiQuotesFill } from "react-icons/pi";
 import bg_portfolio_detail from "../../../../public/img/bg-portfolio-detail.png";
 import sq_gruhas from "../../../../public/img/investments/sq_gruhas.png";
 import sq_millennium from "../../../../public/img/investments/sq_millennium.png";
-import { console } from "inspector";
-
+import { useRouter, useSearchParams } from "next/navigation";
+import { backendBaseUrl } from "@/components/utils/backendUrl";
+ 
+ 
+ 
 const co_investors = { gruhas: sq_gruhas, millennium: sq_millennium };
 
 export default function PortfolioDetail({ params }: { params: { name: string } }) {
+ 
+    const searchParams = useSearchParams();
+    const id = searchParams.get('id');
+    const [singlePortfolio, setSinglePortfolio] = useState(null);
+    const [loading, setLoading] = useState(true);
+    console.log("The id is", id);
+
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          const res = await fetch(`${backendBaseUrl}/portfolio/${id}`);
+          const data = await res.json();
+          setSinglePortfolio(data.data);
+        } catch (error) {
+          console.log("the error is", error);
+          throw error;
+        } finally {
+          setLoading(false);
+        }
+      };
+      fetchData();
+    }, [id]);
+
+    if (loading) {
+      return <div>Loading...</div>;
+    }
+
+    if (!singlePortfolio) {
+      return <div>No data available</div>;
+    }
+
+    console.log("the data from the id is", singlePortfolio);
+
   const content = {
     emo: {
       title: (
@@ -237,18 +273,18 @@ export default function PortfolioDetail({ params }: { params: { name: string } }
       investors: [],
     },
   };
-  const page = params.name as keyof typeof content;
+  // const page = params.name as keyof typeof content;
   return (
     <>
-      <AbstractHero content={content[page]?.title} bg={bg_portfolio_detail.src} />
+      <AbstractHero content={singlePortfolio?.title} bg={bg_portfolio_detail.src} />
       <section className="min-h-[40vh] py-5 container center mx-auto">
         <div className="py-8 px-4 mx-auto max-w-screen-2xl sm:py-16 lg:px-6">
-          <article className="text-lg text-start md:w-[80%]">{content[page]?.summary}</article>
+          <article className="text-lg text-start md:w-[80%]">{singlePortfolio?.mainDescription}</article>
         </div>
       </section>
       <div className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {content[page].cards?.map((section, index) => (
+          {singlePortfolio?.cards?.map((section, index) => (
             <div key={index} className="card bg-base-100 shadow-xl">
               <div className="card-body">
                 <span className="flex items-center gap-2">
@@ -257,7 +293,7 @@ export default function PortfolioDetail({ params }: { params: { name: string } }
                   </div>
                   <h2 className="card-title mb-4">{section.title}</h2>
                 </span>
-                <article className="prose">{section.content}</article>
+                <article className="prose">{section.description}</article>
               </div>
             </div>
           ))}
@@ -271,8 +307,10 @@ export default function PortfolioDetail({ params }: { params: { name: string } }
             <PiQuotesFill className="w-[1em] h-[1em] justify-center align-text-center text-yellow-600" />
           </div>
           <blockquote className="text-center text-lg sm:text-xl md:text-2xl font-normal text-gray-800 leading-relaxed">
-            "EMO's ZEN Platform, with advanced thermal management and AI-driven battery optimization, enhances battery lifespan and performance,
-            supporting India's EV goals and Net-Zero ambitions. EMO is set to transform India's battery-tech sector."
+            {/* "EMO's ZEN Platform, with advanced thermal management and AI-driven battery optimization, enhances battery lifespan and performance,
+            supporting India's EV goals and Net-Zero ambitions. EMO is set to transform India's battery-tech sector." */}
+            {singlePortfolio?.bottomSectionContent}
+
           </blockquote>
         </div>
         <style jsx>{`
@@ -293,7 +331,7 @@ export default function PortfolioDetail({ params }: { params: { name: string } }
         `}</style>
       </div>
       {/*  */}
-      {content[page]?.investors?.length > 0 && (
+      {singlePortfolio?.coInvestedBy?.length > 0 && (
         <section className="relative border border-[#ADE9E4] min-h-[45vh] py-5 flex flex-col overflow-hidden">
           <div className="absolute inset-0 bg-radial-glow"></div>
           <div className="relative z-10 h-max max-w-screen-2xl sm:py-16 lg:px-6 py-8 px-4 mx-auto grow content-center">
@@ -301,11 +339,11 @@ export default function PortfolioDetail({ params }: { params: { name: string } }
               <h3 className="tracking-[.6rem] text-[#5C5C5C] font-medium text-center mb-8">CO-INVESTED BY</h3>
               <div className="grid grid-flow-row grid-cols-1 place-content-center gap-8">
                 <div className="flex justify-center items-center">
-                  {content[page]?.investors?.map((investor: string, index: number) => (
+                  {singlePortfolio?.coInvestedBy?.map((investor) => (
                     <Image
-                      key={index}
-                      src={co_investors[investor as keyof typeof co_investors]}
-                      alt={investor}
+                      key={investor?._id}
+                      src={investor?.logo?.secure_url}
+                      alt={investor?.name}
                       width={180}
                       height={38}
                       priority

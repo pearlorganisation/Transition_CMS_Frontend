@@ -8,13 +8,15 @@ import sq_emo from "../../public/img/investments/sq_emo.png";
 import sq_protonas from "../../public/img/investments/sq_protonas.png";
 import parse from 'html-react-parser'
 interface InvestmentCardInterface {
+  id:string,
   name: string;
   link: string;
   body: string;
   image: {secure_url: string};
 }
 
-function InvestmentCard({ name, link, body, image }: InvestmentCardInterface) {
+function InvestmentCard({id, name, link, body, image }: InvestmentCardInterface) {
+  console.log("the id is", id)
   return (
     <section className="relative min-h-[45vh] py-5 flex flex-col overflow-hidden">
       <div className="relative z-10 h-max max-w-screen-2xl sm:py-16 lg:px-6 py-8 px-4 mx-auto grow content-center">
@@ -32,7 +34,7 @@ function InvestmentCard({ name, link, body, image }: InvestmentCardInterface) {
             </a>
             <div className="col-span-2">
               <article className="prose lg:prose-2xl leading-6">{parse(body)}</article>
-              <Link href={`/portfolio/${name.toLowerCase()}`}>
+              <Link href={`/portfolio/${name.toLowerCase()}?id=${id}`}>
                 <span className="flex items-center gap-2 text-2xl text-primary mt-8">
                   Learn why we invested
                   <IconCircleArrowRightFilled className="w-[1em] h-[1em] inline-block align-text-bottom" />
@@ -94,7 +96,7 @@ export default function InvestmentHighlightSections({data}) {
           <InvestmentCard key={investment.name} name={investment.name} link={investment.link} body={investment.body} image={investment.image} />
         ))} */}
           {data.map((investment) => (
-          <InvestmentCard key={investment.name} name={investment.name} link={investment.link} body={investment.overview} image={investment.image} />
+          <InvestmentCard key={investment.name} id={investment._id} name={investment.name} link={investment.link} body={investment.overview} image={investment.image} />
         ))}
       </div>
     </>

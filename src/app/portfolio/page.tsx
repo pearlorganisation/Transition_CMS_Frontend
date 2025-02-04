@@ -7,12 +7,7 @@ import bg_portfolio from "../../../public/img/bg-portfolio-root.png";
 import { backendBaseUrl } from "@/components/utils/backendUrl";
 
 export default function Portf() {
-  const content = (
-    <div>
-      At Transition VC, we support teams developing future technologies focused on{" "}
-      <strong>decarbonisation</strong>.
-    </div>
-  );
+  const content = `<div>At Transition VC, we support teams developing future technologies focused on <strong>decarbonisation</strong>.</div>`;
 
   const [portfolioData, setPortfolioData] = useState([])
   
