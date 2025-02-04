@@ -141,14 +141,14 @@ export default function Insights() {
         onTabClick={scrollToSection as any}
         navbarHeight={navbarHeight}
       />
-{insightsData &&<>
+{<>
 {/* Mission Section */}
      <div
         id="Articles"
         ref={sectionRefs.Articles}
         className="container mx-auto px-4 py-8 pt-16 min-h-[45vh] grid  content-center"
       >
-        <ArticlesSection props={{showSubtitle: false,articleCards:insightsData?.get('ARTICLES')} as ArticlesSectionProps}  />
+        {insightsData&&<ArticlesSection props={{showSubtitle: false,articleCards:insightsData?.get('ARTICLES')} as ArticlesSectionProps}  />}
       </div>
       {/* Press Section */}
       <div
@@ -156,7 +156,7 @@ export default function Insights() {
         ref={sectionRefs.Press}
         className="container mx-auto px-4 py-8 pt-16 min-h-[45vh] grid  content-center"
       >
-        <NewsSection newsCards={insightsData?.get('PRESS')} showSubtitle={false}  title= "Press" />
+        {insightsData &&<NewsSection newsCards={insightsData?.get('PRESS')} showSubtitle={false}  title= "Press" />}
       </div>
       {/* ESG Section  */}
       <div
@@ -164,8 +164,8 @@ export default function Insights() {
         ref={sectionRefs.Podcast}
         className="container mx-auto px-4 py-8 pt-16 min-h-[45vh] grid  content-center"
       >
-        <PodcastListing data = {insightsData?.get('PODCAST')}/>
-      </div>
+{        insightsData &&<PodcastListing data = {insightsData?.get('PODCAST')}/>
+}      </div>
 
 </>   }   
       {/* Newsletter Section */}
