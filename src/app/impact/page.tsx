@@ -91,13 +91,7 @@ export default function Impacts() {
     }
   };
 
-  const content = (
-    <div>
-      From Carbon Reduction to Social Empowerment:
-      <br />
-      <strong>Our Holistic Impact Vision</strong>
-    </div>
-  );
+  const content = `<div>From Carbon Reduction to Social Empowerment:<br /><strong>Our Holistic Impact Vision</strong></div>`
 
   const esgData = [
     {

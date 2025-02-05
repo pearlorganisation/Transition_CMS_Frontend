@@ -164,7 +164,7 @@ const MemberCard = ({ member }: { member: Member }) => {
           <Image src={member?.image?.secure_url} alt={member.name} layout="responsive" width={384} height={256} />
         </figure>
         <div className="card-body">
-          <h2 className="card-title">{member.name}</h2>
+          <h2 className="card-title text-nowrap">{member.name}</h2>
           <p>{member.bio}</p>
         </div>
         <div className="absolute inset-0 bg-secondary bg-opacity-100 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">

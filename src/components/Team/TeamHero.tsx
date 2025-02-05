@@ -66,11 +66,8 @@ function scrollCarousel(targetImageNumber: number, carouselElement: HTMLElement 
 export default function TeamHero() {
   const carouselElement = React.useRef(null);
 
-  const content = (
-    <div>
-      Meet Our Leadership Team: <strong>Driving Impact, Leading Change</strong>
-    </div>
-  );
+  const content =`<div>Meet Our Leadership Team: <strong>Driving Impact, Leading Change</strong></div>`
+  
 
   return (
     <AbstractHero content={content} bg={team_bg.src} />

@@ -5,12 +5,12 @@ import NewsSection from "@/components/NewsSection";
 import InvestmentHighlightSections from "../../components/InvestmentHighlightSections";
 import bg_portfolio from "../../../public/img/bg-portfolio-root.png";
 import { backendBaseUrl } from "@/components/utils/backendUrl";
-
+import { useNews } from "@/context/NewsContext";
 export default function Portf() {
-  const content = `<div>At Transition VC, we support teams developing future technologies focused on <strong>decarbonisation</strong>.</div>`;
+  const content =`<div>At Transition VC, we support teams developing future technologies focused on <strong>decarbonisation</strong>.</div>`;
 
   const [portfolioData, setPortfolioData] = useState([])
-  
+  const { newsData, loading, error} = useNews()  
   useEffect(()=>{
    const fetchData = async()=>{
     try {
@@ -31,7 +31,7 @@ export default function Portf() {
     <>
       <AbstractHero content={content} bg={bg_portfolio.src}/>
       <InvestmentHighlightSections data={portfolioData} />
-      <NewsSection />
+      <NewsSection newsCards={newsData?.get("PRESS")} showSubtitle={false} title="Press" />
     </>
   );
 }

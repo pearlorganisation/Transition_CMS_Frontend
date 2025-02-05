@@ -5,7 +5,7 @@ import Footer from "@/components/Footer";
 import TopNav from "@/components/Topbar";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/react"
-
+import { NewsProvider } from "@/context/NewsContext"
 
 export const metadata: Metadata = {
   title: "Transition VC",
@@ -23,7 +23,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
               <TopNav />
             </div>
             <main className="w-full z-0 top-0 ">
-              {children}
+              <NewsProvider>
+                 {children}
+              </NewsProvider>              
             </main>
             <Footer />
           </div>

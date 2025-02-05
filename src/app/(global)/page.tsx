@@ -1,5 +1,7 @@
+"use client"
 // import Image from "next/image";
 // import Footer from "@/components/Footer";
+import { useNews } from "@/context/NewsContext";
 import LandingHero from "@/components/LandingHero";
 import FocusArea from "@/components/FocusArea";
 import Portfolio from "@/components/Portfolio";
@@ -8,6 +10,7 @@ import TeamLanding from "@/components/TeamLanding";
 import NewsSection from "@/components/NewsSection";
 
 export default function Home() {
+   const { newsData, loading, error } = useNews();
   return (
     <>
     
@@ -16,7 +19,7 @@ export default function Home() {
       <Portfolio />
       <Timeline />
       <TeamLanding />
-      <NewsSection />
+      <NewsSection newsCards={newsData?.get("PRESS")} showSubtitle={false} title="Press" />
     
     </>
   );
