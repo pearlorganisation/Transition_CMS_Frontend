@@ -3,8 +3,11 @@ import Image, { StaticImageData } from "next/image";
 import {
   IconCircleArrowLeft,
   IconCircleArrowRight,
-} from "@tabler/icons-react";
-
+} from "@tabler/icons-react"; 
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Keyboard } from 'swiper/modules';
+ 
+import 'swiper/css';
 import img_art1 from "../../public/img/insight/art-1.png";
 import img_art2 from "../../public/img/insight/art-2.png";
 import img_art3 from "../../public/img/insight/art-3.png";
