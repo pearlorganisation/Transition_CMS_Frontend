@@ -2,6 +2,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import Image, { StaticImageData } from "next/image";
 import { getAllNews } from "../lib/database/action/insightsAction"
+import Link from "next/link";
 import moment from "moment"
 import {
   IconBuildingFactory2,
@@ -43,14 +44,14 @@ function NewsCard(item:any) {
         <h4 className="text-[#828282] font-thin py-2">
           {item.dateMetaData}
         </h4>
-        {item?.link &&<a href={item.link} target="_blank" className="text-2xl px-0 text-primary hover:underline">
+        {item?.link &&<a href={item.link} target='_blank' className="text-2xl px-0 text-primary hover:underline">
           Read More
         </a>}
 
         {//change this according to blog page
-          !item?.link && <a href={"/"} target="_blank" className="text-2xl px-0 text-primary hover:underline">
+          !item?.link && <Link href={`/insight/${item?._id}`} className="text-2xl px-0 text-primary hover:underline">
           Read More
-        </a>}
+        </Link>}
         
       </div>
     </div>

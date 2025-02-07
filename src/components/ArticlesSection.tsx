@@ -11,6 +11,7 @@ import 'swiper/css';
 import img_art1 from "../../public/img/insight/art-1.png";
 import img_art2 from "../../public/img/insight/art-2.png";
 import img_art3 from "../../public/img/insight/art-3.png";
+import Link from "next/link";
 
 export interface ArticlesSectionProps {
     subtitle?: string;
@@ -20,6 +21,7 @@ export interface ArticlesSectionProps {
 }
 
 function ArticleCard(item:{
+  _id:any,
   icon:any,
   title:string,
   link:string
@@ -33,7 +35,7 @@ function ArticleCard(item:{
         <h4 className="text-[#828282] font-thin py-2">{item.title}</h4>
         {item?.link && <a href={item.link} className="text-2xl px-0 text-primary hover:underline">Read More</a>}
         {//replace href with the blog page inside the side
-          !item?.link && <a href={"/"} className="text-2xl px-0 text-primary hover:underline">Read More</a>
+          !item?.link && <Link href={`/insight/${item._id}`} className="text-2xl px-0 text-primary hover:underline">Read More</Link>
         }
       </div>
     </div>
