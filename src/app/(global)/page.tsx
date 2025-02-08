@@ -8,9 +8,14 @@ import Portfolio from "@/components/Portfolio";
 import Timeline from "@/components/Timeline";
 import TeamLanding from "@/components/TeamLanding";
 import NewsSection from "@/components/NewsSection";
+import { useEffect } from "react";
 
 export default function Home() {
    const { newsData, loading, error } = useNews();
+   const newsAndArticlData =[]
+  //  useEffect(()=>{
+  //       newsAndArticlData
+  //  },[newsData])
   return (
     <>
     
@@ -19,8 +24,9 @@ export default function Home() {
       <Portfolio />
       <Timeline />
       <TeamLanding />
-      <NewsSection newsCards={newsData?.get("PRESS")} showSubtitle={false} title="Press" />
-    
+{
+newsData&&      <NewsSection newsCards={[...newsData.get("PRESS"),...newsData.get("ARTICLES")]} showSubtitle={false} title="Press" />
+}    
     </>
   );
 }

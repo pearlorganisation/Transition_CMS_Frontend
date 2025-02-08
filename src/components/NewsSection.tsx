@@ -37,14 +37,14 @@ function NewsCard(item:any) {
   return (
     <div className="card bg-base-100 shadow-md w-full border">
       <div className="card-body p-4">
-        <Image src={item.icon.secure_url} height={200} width={200}   alt="Transition News" className="w-full h-full object-contain" />
-        <h3 className="tracking-[.2rem] text-[#5C5C5C] font-medium py-2">{item?.shortTitle}</h3>
+        <Image src={item?.icon?.secure_url} height={200} width={200}   alt="Transition News" className="w-full h-full object-contain" />
+        <h3 className="tracking-[.2rem] text-[#5C5C5C] font-medium py-2">{item?.shortTitle ?? item.blogType}</h3>
         {/* <div className="size-14 rounded flex items-center justify-center">{icon}</div> */}
-        <p className="text-[1.25rem] text-wrap pr-[0.7rem]">{item.title}</p>
+        <p className="text-[1.25rem] text-wrap pr-[0.7rem]">{item?.title}</p>
         <h4 className="text-[#828282] font-thin py-2">
-          {item.dateMetaData}
+          {item?.dateMetaData}
         </h4>
-        {item?.link &&<a href={item.link} target='_blank' className="text-2xl px-0 text-primary hover:underline">
+        {item?.link &&<a href={item?.link} target='_blank' className="text-2xl px-0 text-primary hover:underline">
           Read More
         </a>}
 
@@ -120,6 +120,7 @@ function NewsCard(item:any) {
 // ];
 
 export default function NewsSection(props: NewsSectionProps) {
+  console.log("news and press is",props.newsCards)
   const showSubtitle = props?.showSubtitle ?? true;
   const title = props?.title ?? "Featured news and articles";
   const subtitle = props?.subtitle ?? "News";
