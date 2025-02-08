@@ -35,23 +35,43 @@ export interface NewsSectionProps {
 
 function NewsCard(item:any) {
   return (
-    <div className="card bg-base-100 shadow-md w-full border">
+  // <div className="card bg-base-100 shadow-md w-full border">
+  //   <div className="card-body p-4">
+  //     <Image src={item?.icon?.secure_url} height={200} width={200}   alt="Transition News" className="w-full h-full object-contain" />
+  //     <h3 className="tracking-[.2rem] text-[#5C5C5C] font-medium py-2">{item?.shortTitle ?? item.blogType}</h3>
+      
+  //     <p className="text-[1.25rem] text-wrap pr-[0.7rem]">{item?.title}</p>
+  //     <h4 className="text-[#828282] font-thin py-2">
+  //       {item?.dateMetaData}
+  //     </h4>
+  //     {item?.link &&<a href={item?.link} target='_blank' className="text-2xl px-0 text-primary hover:underline">
+  //       Read More
+  //     </a>}
+
+  //     {
+  //       !item?.link && <Link href={`/insight/${item?._id}`} className="text-2xl px-0 text-primary hover:underline">
+  //       Read More
+  //     </Link>}
+      
+  //   </div>
+  // </div>
+  <div className="card bg-base-100 shadow-md w-full border">
       <div className="card-body p-4">
-        <Image src={item?.icon?.secure_url} height={200} width={200}   alt="Transition News" className="w-full h-full object-contain" />
-        <h3 className="tracking-[.2rem] text-[#5C5C5C] font-medium py-2">{item?.shortTitle ?? item.blogType}</h3>
+        <Image src={item?.icon?.secure_url} height={200} width={200}   alt="Transition News" className="w-full rounded-md h-full object-contain" />
+        <h3 className="tracking-[.2rem] text-[#5C5C5C] font-medium py-2">{item?.shortTitle}</h3>
         {/* <div className="size-14 rounded flex items-center justify-center">{icon}</div> */}
-        <p className="text-[1.25rem] text-wrap pr-[0.7rem]">{item?.title}</p>
+        <p className="text-[1.25rem] text-wrap pr-[0.7rem]">{item.title}</p>
         <h4 className="text-[#828282] font-thin py-2">
-          {item?.dateMetaData}
+          {item.dateMetaData}
         </h4>
-        {item?.link &&<a href={item?.link} target='_blank' className="text-2xl px-0 text-primary hover:underline">
+        {item?.link &&<a href={item.link} target="_blank" className="text-2xl px-0 text-primary hover:underline">
           Read More
         </a>}
 
         {//change this according to blog page
-          !item?.link && <Link href={`/insight/${item?._id}`} className="text-2xl px-0 text-primary hover:underline">
+          !item?.link && <a href={"/"} target="_blank" className="text-2xl px-0 text-primary hover:underline">
           Read More
-        </Link>}
+        </a>}
         
       </div>
     </div>
@@ -255,7 +275,7 @@ export default function NewsSection(props: NewsSectionProps) {
                 <div
                   id={item?._id}
                   key={item?._id}
-                  className="carousel-item w-[90%] md:w-[33.3%] lg:w-[22.2%] py-2 "
+                  className="carousel-item py-2 "
                 >
                   {NewsCard(item)}
                 </div>

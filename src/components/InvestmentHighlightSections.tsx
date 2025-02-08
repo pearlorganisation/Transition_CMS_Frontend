@@ -87,7 +87,7 @@ const investments = [
   },
 ];
 
-export default function InvestmentHighlightSections({data}) {
+export default function InvestmentHighlightSections({data}:any) {
   console.log("the data on highlights section is", data)
   return (
     <>
@@ -95,7 +95,7 @@ export default function InvestmentHighlightSections({data}) {
         {/* {investments.map((investment) => (
           <InvestmentCard key={investment.name} name={investment.name} link={investment.link} body={investment.body} image={investment.image} />
         ))} */}
-          {data.map((investment) => (
+          {data.map((investment:any) => (
           <InvestmentCard key={investment.name} id={investment._id} name={investment.name} link={investment.link} body={investment.overview} image={investment.image} />
         ))}
       </div>
