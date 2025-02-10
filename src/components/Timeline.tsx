@@ -1,12 +1,13 @@
 "use client";
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import Image, { StaticImageData } from "next/image";
 import { PiTargetFill, PiMapPinSimpleAreaFill, PiBuildingOfficeFill } from "react-icons/pi";
 import t_matel from "@/img/investments/timeline_matel.png";
 import t_emo from "@/img/investments/timeline_emo.png";
 import t_protonas from "@/img/investments/timeline_patronas.png";
 import classes from "./Timeline.module.css";
-
+import { backendBaseUrl } from "./utils/backendUrl";
+import parse from "html-react-parser"
 function TimelineCard(
   {
     number,
@@ -18,10 +19,10 @@ function TimelineCard(
   }: {
     number: number;
     title: string;
-    body: ReactElement;
+    body: string;
     image: StaticImageData;
     value: string;
-    stats: [string, string, string];
+    stats: [any];
   },
   {
     setValue,
@@ -71,18 +72,23 @@ function TimelineCard(
                 </div>
                 <h1 className=" font-mono font-medium pl-1">{title}</h1>
               </span>
-              <article className="prose text-lg  md:text-3xl text-wrap my-[2rem]">{body}</article>
+              <article className="prose text-lg  md:text-3xl text-wrap my-[2rem]">{parse(body)}</article>
               <div className="grid md:grid-flow-col justify-around gap-4 bottom-0 mb-4 w-full">
-                <div className="stats size-[12rem] shadow bottom-0">
-                  <div className="stat  bg-accent">
-                    <div className="stat-title">
-                      <PiTargetFill className="w-[3rem] h-[3rem] fill-primary" />{" "}
+                {Array.isArray(stats) &&  stats.map((el)=>(
+                  <div key={el?._id} className="stats size-[12rem] shadow bottom-0">
+                    <div className="stat  bg-accent">
+                      <div className="stat-title">
+                        {/* <PiTargetFill className="w-[3rem] h-[3rem] fill-primary" />{" "} */}
+                        <Image src={el?.icon?.secure_url} alt="icons" width={48} height={48} ></Image>
+                        {/* <img src={el?.icon?.secure_url} className="size-[3rem]" alt="icon"/> */}
+                      </div>
+                      <div className="stat-desc text-[1rem] content-end">{el.title}</div>
+                      <div className="stat-value text-[1.14rem]">{el.body}</div>
                     </div>
-                    <div className="stat-desc text-[1rem] content-end">Focus Area</div>
-                    <div className="stat-value text-[1.14rem]">{stats[0]}</div>
                   </div>
-                </div>
-                <div className="stats size-[12rem] shadow bottom-0 ">
+                ))}
+               
+                {/* <div className="stats size-[12rem] shadow bottom-0 ">
                   <div className="stat bg-accent">
                     <div className="stat-title">
                       <PiMapPinSimpleAreaFill className="w-[3rem] h-[3rem] fill-primary" />
@@ -99,7 +105,7 @@ function TimelineCard(
                     <div className="stat-desc text-[1rem] content-end">Established</div>
                     <div className="stat-value text-[1.14rem]">{stats[2]}</div>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
             <div className="col-span-2">
@@ -120,9 +126,24 @@ function TimelineCard(
 
 export default function Timeline() {
   const [value, setValue] = useState("1");
-
+ const [portfolioData, setPortfolioData] = useState([])
+   useEffect(()=>{
+    const fetchData = async()=>{
+     try {
+       const data = await fetch(`${backendBaseUrl}/portfolio`)
+       const res = await data.json()
+       console.log("the res is", res)
+       setPortfolioData(res.data);
+     } catch (error) {
+       console.log("the error is", error)
+       throw error
+     }
+    }
+    fetchData()
+   },[])
   const handleOptionChange = (event: any) => {
     setValue(event.target.value);
+    console.log("the value is", value)
   };
 
   return (
@@ -130,8 +151,35 @@ export default function Timeline() {
       <div className=" h-max max-w-screen-2xl sm:py-16 lg:px-6 py-8 px-4 mx-auto grow ">
         <div className="join join-vertical w-full">
           <ul className="timeline timeline-snap-icon max-md:timeline-compact timeline-vertical">
-            {/* <li className="join-item "> */}
-            <li>
+           
+         {Array.isArray(portfolioData) && portfolioData.map((el: any, index) => (
+       <li key={el?._id}>  
+         <div className="timeline-middle mt-4">
+            <time className="font-mono text-[1.5rem]/[1.45rem] pt-6">
+                {el?.investmentTimeline?.investmentYear}
+            </time>
+         </div>
+        {TimelineCard(
+                {
+                  number: index+1,
+                  title: el?.name,
+                  body:el?.investmentTimeline?.description,
+                  image: t_emo,
+                  value,
+                  stats: el?.investmentTimeline?.cards,
+                },
+                { setValue, handleOptionChange },
+              )}
+        <hr
+            className={
+                value === el?._id
+                    ? `${classes["timeline-divider"]} width-[1px] overflow-visible` // Use template literal for string concatenation
+                    : "width-[1px]"
+             }
+            />
+        </li>
+       ))}
+            {/* <li>
               <div className="timeline-middle mt-4">
                 <time className="font-mono text-[1.5rem]/[1.45rem] pt-6">2023</time>
               </div>
@@ -162,9 +210,8 @@ export default function Timeline() {
                     : "width-[1px]"
                 }
               />
-            </li>
-            {/* <li className="join-item"> */}
-            <li>
+            </li>  */}
+            {/* <li>
               <hr className="width-[1px]" />
               <div className="timeline-middle  mt-4">
                 <time className="font-mono text-[1.5rem]/[1.45rem] pt-6">2024</time>
@@ -196,8 +243,8 @@ export default function Timeline() {
                 }
               />
             </li>
-            {/* <li className="join-item"> */}
-            <li className="content-center">
+     
+            <li>
               <hr className="width-[1px] " />
               <div className="timeline-middle  mt-4">
                 <time className="font-mono text-[1.5rem]/[1.45rem] pt-6">2024</time>
@@ -220,7 +267,7 @@ export default function Timeline() {
                 },
                 { setValue, handleOptionChange },
               )}
-            </li>
+            </li> */}
           </ul>
         </div>
       </div>

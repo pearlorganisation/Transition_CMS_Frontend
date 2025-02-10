@@ -16,6 +16,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className="light">
+  
       <body className={`antialiased`}>
         <div className="flex h-full min-h-screen w-full font-arial text-main">
           <div className="w-full">
