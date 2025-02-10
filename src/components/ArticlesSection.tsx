@@ -5,8 +5,7 @@ import {
   IconCircleArrowRight,
 } from "@tabler/icons-react"; 
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Keyboard } from 'swiper/modules';
- 
+import { Pagination } from 'swiper/modules';
 import 'swiper/css';
 import img_art1 from "../../public/img/insight/art-1.png";
 import img_art2 from "../../public/img/insight/art-2.png";
@@ -42,86 +41,21 @@ function ArticleCard(item:{
   );
 }
 
-// const articleCards = [
-//   {
-//     name: "one",
-//     image: img_art1,
-//     title: <>VCs chase auto parts makers to hitch a ride on EV journey</>,
-//     date: "Jul 01, 2024",
-//     read_time: "5 min read",
-//     link: "https://mediabrief.com/transition-vc-and-ieee-partnered-and-hosted-the-marquee-summit/"
-//   },
-//   {
-//     name: "two",
-//     image: img_art2,
-//     title: <>Mohammed Shoeb Ali on "Clean Mobility & the Role of Indian Startups"</>,
-//     date: "Sep 16, 2023",
-//     read_time: "6 min read",
-//     link: "https://economictimes.indiatimes.com/tech/funding/low-cost-hydrogen-cell-startup-protonas-bags-funding-in-round-led-by-transition-vc/articleshow/111815713.cms?from=mdr"
-//   },{
-//     name: "three",
-//     image: img_art3,
-//     title: <>Mohammed Shoeb Ali on "Making India a Green Hydrogen Power”</>,
-//     date: "Sep 11, 2023",
-//     read_time: "6 min read",
-//     link:"https://economictimes.indiatimes.com/tech/startups/vcs-chase-auto-parts-makers-to-hitch-a-ride-on-ev-journey/articleshow/111385994.cms?from=mdr"
-//   }
-// ];
-
 export default function ArticlesSection({props}: {props: ArticlesSectionProps|undefined}) {
   const showSubtitle = props?.showSubtitle ?? true;
   const title = props?.title ?? "Articles";
   const subtitle = props?.subtitle ?? "Articles";
   const articleCards = props?.articleCards??[];
   console.log("the artcilecards are", articleCards);
-  const currentCardRef = useRef<HTMLDivElement | null>(null);
-  
-   useEffect(() => {
-      // Set the initial ref to the first card
-      if (articleCards.length > 0) {
-        currentCardRef.current = document.getElementById(articleCards[0]._id) as HTMLDivElement;
-      }
-    }, [articleCards]);
-  
-    const scrollToCard = (card: HTMLElement) => {
-      card.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "start" });
-    };
-  
+   const swiperRef = useRef(null);
     const nextSlide = () => {
-      console.log("clicked right")
-      if (currentCardRef.current) {
-        const nextCard = currentCardRef.current.nextElementSibling as HTMLDivElement;
-        if (nextCard) {
-          scrollToCard(nextCard);
-          currentCardRef.current = nextCard;
-        } else {
-          // If there's no next card, loop to the first one
-          const firstCard = document.getElementById(articleCards[0]._id) as HTMLDivElement;
-          if (firstCard) {
-            scrollToCard(firstCard);
-            currentCardRef.current = firstCard;
-          }
-        }
-      }
+      if (swiperRef.current && swiperRef.current.swiper) {
+      swiperRef.current.swiper.slideNext();
+    }
     };
-  
     const prevSlide = () => {
-      console.log("clicked left")
-      if (currentCardRef.current) {
-        const prevCard = currentCardRef.current.previousElementSibling as HTMLDivElement;
-        if (prevCard) {
-          scrollToCard(prevCard);
-          currentCardRef.current = prevCard;
-        } else {
-          // If there's no previous card, loop to the last one
-          const lastCard = document.getElementById(
-            articleCards[articleCards.length - 1]._id,
-          ) as HTMLDivElement;
-          if (lastCard) {
-            scrollToCard(lastCard);
-            currentCardRef.current = lastCard;
-          }
-        }
+       if (swiperRef.current && swiperRef.current.swiper) {
+      swiperRef.current.swiper.slidePrev();
       }
     };
   
@@ -165,15 +99,25 @@ export default function ArticlesSection({props}: {props: ArticlesSectionProps|un
               </div>
             </div>
             <div className="carousel flex flex-nowrap gap-5 w-full">
+             <Swiper
+                ref={swiperRef}
+                slidesPerView={1}
+                spaceBetween={10}
+                pagination={{ clickable: true }}
+                breakpoints={{
+                  640: { slidesPerView: 2, spaceBetween: 20 },
+                  768: { slidesPerView: 3, spaceBetween: 30 },
+                  1024: { slidesPerView: 4, spaceBetween: 40 },
+                }}
+                modules={[Pagination]}
+                className="mySwiper w-full"
+              >
               {articleCards?.map((item) => (
-                <div
-                  id={item?._id}
-                  key={item?._id}
-                  className="carousel-item lg:w-[33.3%] py-2 "
-                >
+                <SwiperSlide key={item?._id}>
                   {ArticleCard(item)}
-                </div>
+                </SwiperSlide>
               ))}
+            </Swiper>
             </div>
           </div>
         </div>
@@ -182,3 +126,31 @@ export default function ArticlesSection({props}: {props: ArticlesSectionProps|un
     </>
   );
 }
+  {/* <Swiper
+                slidesPerView={1}
+                spaceBetween={10}
+                pagination={{ clickable: true }}
+                breakpoints={{
+                  640: { slidesPerView: 2, spaceBetween: 20 },
+                  768: { slidesPerView: 3, spaceBetween: 30 },
+                  1024: { slidesPerView: 4, spaceBetween: 40 },
+                }}
+                modules={[Pagination]}
+                className="mySwiper w-full"
+              >
+              {articleCards?.map((item) => (
+                <SwiperSlide key={item?._id}>
+                  {ArticleCard(item)}
+                </SwiperSlide>
+              ))}
+            </Swiper>; */}
+
+            {/**   {articleCards?.map((item) => (
+                <div
+                  id={item?._id}
+                  key={item?._id}
+                  className="carousel-item lg:w-[33.3%] py-2 "
+                >
+                  {ArticleCard(item)}
+                </div>
+              ))} */}
