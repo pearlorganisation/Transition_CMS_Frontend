@@ -27,15 +27,15 @@ function ArticleCard(item:{
 
 }) {
   return (
-    <div className="card bg-base-100 shadow-md w-full border ">
+    <div className="card bg-base-100 shadow-md w-64 border ">
       <div className="card-body p-4">
-        <Image src={item.icon.secure_url} width={250} height={100} alt = {item.title} className="w-full h-[160px] object-cover rounded-md" />
-        <p className="text-[1.25rem] text-wrap pr-[0.7rem]">{item.title}</p>
-        <h4 className="text-[#828282] font-thin py-2">{item.title}</h4>
-        {item?.link && <a href={item.link} className="text-2xl px-0 text-primary hover:underline">Read More</a>}
-        {//replace href with the blog page inside the side
+        <Image src={item?.icon?.secure_url} width={400} height={400} alt = {item?.title} className="w-[350px] h-[160px] object-cover rounded-md" />
+        <p className="text-[1.25rem] text-wrap pr-[0.7rem]">{item?.title}</p>
+        <h4 className="text-[#828282] font-thin py-2">{item?.title}</h4>
+        {item?.link && <a href={item?.link} target="_blank" className="text-2xl px-0 text-primary hover:underline">Read More</a>}
+        {/* { 
           !item?.link && <Link href={`/insight/${item._id}`} className="text-2xl px-0 text-primary hover:underline">Read More</Link>
-        }
+        } */}
       </div>
     </div>
   );
@@ -98,27 +98,27 @@ export default function ArticlesSection({props}: {props: ArticlesSectionProps|un
                 </div>
               </div>
             </div>
-            <div className="carousel flex flex-nowrap gap-5 w-full">
-             <Swiper
-                ref={swiperRef}
-                slidesPerView={1}
-                spaceBetween={10}
-                pagination={{ clickable: true }}
-                breakpoints={{
-                  640: { slidesPerView: 2, spaceBetween: 20 },
-                  768: { slidesPerView: 3, spaceBetween: 30 },
-                  1024: { slidesPerView: 4, spaceBetween: 40 },
-                }}
-                modules={[Pagination]}
-                className="mySwiper w-full"
-              >
-              {articleCards?.map((item) => (
-                <SwiperSlide key={item?._id}>
-                  {ArticleCard(item)}
-                </SwiperSlide>
-              ))}
-            </Swiper>
-            </div>
+         <div className="carousel flex flex-nowrap gap-5 w-full">
+        <Swiper
+          ref={swiperRef}
+          slidesPerView={1}
+          spaceBetween={10}
+          pagination={{ clickable: true }}
+          breakpoints={{
+            640: { slidesPerView: 2, spaceBetween: 20 },
+            768: { slidesPerView: 3, spaceBetween: 30 },
+            1024: { slidesPerView: 4, spaceBetween: 40 },
+          }}
+          modules={[Pagination]}
+          className="mySwiper w-full"
+        >
+            {articleCards?.map((item) => (
+            <SwiperSlide key={item?._id}>
+              <ArticleCard {...item} />  
+            </SwiperSlide>
+            ))}
+          </Swiper>
+        </div>
           </div>
         </div>
       </section>

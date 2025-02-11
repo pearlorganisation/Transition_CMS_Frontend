@@ -16,6 +16,8 @@ import sdg6 from "../../../public/img/impact/sdg-06.png";
 import sdg10 from "../../../public/img/impact/sdg-10.png";
 import sdg9 from "../../../public/img/impact/sdg-09.png";
 import sdg_logo from "../../../public/img/impact/goals.png";
+import { backendBaseUrl } from "@/components/utils/backendUrl";
+import Loader from "@/components/Loader";
 
 const PolicyItem = (data:any) => {
   console.log(data);
@@ -55,7 +57,7 @@ export default function Impacts() {
         setLoading(true);
         setError(null);
 
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL_BACKEND}/impact`);
+        const response = await fetch(`${backendBaseUrl}/impact`);
 
         if (!response.ok) {
           throw new Error(`Error ${response.status}: ${response.statusText}`);
@@ -94,7 +96,7 @@ export default function Impacts() {
 
     fetchData();
   }, []);  
-
+ console.log("the impact map data is", impactData)
   useEffect(() => {
     const navbar = document.querySelector(".navbar") as HTMLElement;
     if (navbar) {
@@ -190,7 +192,9 @@ export default function Impacts() {
     { number: 10, color: "bg-[#DD1367]", imagePath: sdg10.src },
     { number: 9, color: "bg-[#FD6925]", imagePath: sdg9.src },
   ];
-
+ if(loading){
+  return (<Loader />)
+ }
   return (
     <>
       <AbstractHero content={content} bg={bg_impact.src} />

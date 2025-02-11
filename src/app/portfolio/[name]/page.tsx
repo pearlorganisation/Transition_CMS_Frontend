@@ -10,7 +10,7 @@ import sq_gruhas from "../../../../public/img/investments/sq_gruhas.png";
 import sq_millennium from "../../../../public/img/investments/sq_millennium.png";
 import { useRouter, useSearchParams } from "next/navigation";
 import { backendBaseUrl } from "@/components/utils/backendUrl";
-  
+import parse from "html-react-parser"
  
 const co_investors = { gruhas: sq_gruhas, millennium: sq_millennium };
 
@@ -290,9 +290,9 @@ export default function PortfolioDetail({ params }: { params: { name: string } }
                   <div className="text-4xl text-primary mb-4">
                     <PiSparkleFill className="w-[1em] h-[1em] inline-block align-text-bottom" />
                   </div>
-                  <h2 className="card-title mb-4">{section.title}</h2>
+                  <h2 className="card-title mb-4">{parse(section.title)}</h2>
                 </span>
-                <article className="prose">{section.description}</article>
+                <article className="prose">{parse(section.description)}</article>
               </div>
             </div>
           ))}
@@ -309,7 +309,6 @@ export default function PortfolioDetail({ params }: { params: { name: string } }
             {/* "EMO's ZEN Platform, with advanced thermal management and AI-driven battery optimization, enhances battery lifespan and performance,
             supporting India's EV goals and Net-Zero ambitions. EMO is set to transform India's battery-tech sector." */}
             {singlePortfolio?.bottomSectionContent}
-
           </blockquote>
         </div>
         <style jsx>{`

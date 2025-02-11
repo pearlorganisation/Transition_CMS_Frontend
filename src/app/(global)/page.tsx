@@ -25,8 +25,9 @@ export default function Home() {
       <Timeline />
       <TeamLanding />
 {
-newsData&&      <NewsSection newsCards={[...newsData.get("PRESS"),...newsData.get("ARTICLES")]} showSubtitle={false} title="Press" />
-}    
+  
+newsData&&      <NewsSection newsCards={[...newsData.get("PRESS")]} showSubtitle={false} title="Press" />
+}{/** will add in future newsSection ,...newsData.get("ARTICLES") */}    
     </>
   );
 }

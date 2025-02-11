@@ -70,11 +70,11 @@ function NewsCard(item:any) {
         {item?.link &&<a href={item.link} target="_blank" className="text-2xl px-0 text-primary hover:underline">
           Read More
         </a>}
-
-        {//change this according to blog page
+{/* 
+        { 
           !item?.link && <a href={"/"} target="_blank" className="text-2xl px-0 text-primary hover:underline">
           Read More
-        </a>}
+        </a>} */}
         
       </div>
     </div>

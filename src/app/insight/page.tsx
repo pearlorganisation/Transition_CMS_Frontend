@@ -78,6 +78,7 @@ export default function Insights() {
     fetchData();
   }, []);
 
+  console.log("the insights data is", insightsData)
   useEffect(() => {
     const navbar = document.querySelector('.navbar') as HTMLElement;
     if (navbar) {
