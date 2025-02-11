@@ -17,17 +17,18 @@ import sdg10 from "../../../public/img/impact/sdg-10.png";
 import sdg9 from "../../../public/img/impact/sdg-09.png";
 import sdg_logo from "../../../public/img/impact/goals.png";
 
-const PolicyItem = ({ logo, title, description }: { logo: string; title: string; description: string }) => (
-  <div className="flex items-start space-x-4 mb-8">
-    <div className="w-24 h-24 bg-gray-100 flex items-center justify-center rounded-lg flex-shrink-0">
-      <Image src={logo} alt={title} className="max-w-full max-h-full" width={120} height={120} />
-    </div>
-    <div>
-      <h3 className="text-xl font-semibold mb-2">{title}</h3>
-      <p className="text-gray-600">{description}</p>
-    </div>
+const PolicyItem = (data:any) => {
+  console.log(data);
+  return <div className="flex items-start space-x-4 mb-8">
+  <div className="w-24 h-24 bg-gray-100 flex items-center justify-center rounded-lg flex-shrink-0">
+    <Image src={data?.icon?.secure_url} alt={data.title} className="max-w-full max-h-full" width={120} height={120} />
   </div>
-);
+  <div>
+    <h3 className="text-xl font-semibold mb-2">{data.title}</h3>
+    <p className="text-gray-600">{data?.shortDescription}</p>
+  </div>
+</div>
+};
 
 const SDGIcon = ({ number, color, imagePath }: { number: number; color: string; imagePath: string }) => (
   <div className={`w-24 h-24 ${color} flex items-center justify-center`}>
@@ -36,14 +37,63 @@ const SDGIcon = ({ number, color, imagePath }: { number: number; color: string; 
 );
 
 export default function Impacts() {
-  const [activeTab, setActiveTab] = useState("Mission");
-  const [navbarHeight, setNavbarHeight] = useState(0);
   const sectionRefs = {
     Mission: useRef<HTMLDivElement>(null),
     SDGs: useRef<HTMLDivElement>(null),
     ESGs: useRef<HTMLDivElement>(null),
     Policies: useRef<HTMLDivElement>(null),
   };
+  const [activeTab, setActiveTab] = useState("Mission");
+  const [navbarHeight, setNavbarHeight] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [impactData,setImpactData] =  useState<any>(null);;
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL_BACKEND}/impact`);
+
+        if (!response.ok) {
+          throw new Error(`Error ${response.status}: ${response.statusText}`);
+        }
+
+        const result = await response.json();
+        const map = new Map();
+        result?.data?.forEach((element:any) => {
+          if(!map?.has(element?.impactDataType))
+          {
+            if(element?.impactDataType == "POLICIES")
+            {
+              map.set(`${element.impactDataType}`,[{...element}])
+
+            }
+            else
+              map.set(element.impactDataType,element);
+          }
+          else{
+           if(element?.impactDataType == "POLICIES")
+            {
+              const currentArray = map?.get(element?.impactDataType);
+              currentArray.push(element);
+            }
+            
+
+          }
+        });
+        setImpactData(map);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "Something went wrong");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);  
 
   useEffect(() => {
     const navbar = document.querySelector(".navbar") as HTMLElement;
@@ -160,54 +210,46 @@ export default function Impacts() {
             }}
           ></div>
           <p className="relative text-lg text-gray-800 leading-relaxed z-10">
-            At Transition VC, we are committed to{" "}
+            {/* At Transition VC, we are committed to{" "}
             <strong>offsetting 40 million tons of CO2—equivalent to nearly 1% of India's annual total carbon emissions</strong>. This bold mission
             underscores our unwavering commitment to driving a cleaner, more sustainable future, ensuring a lasting positive impact for generations
-            ahead.
+            ahead. */}
+            {impactData &&  <div dangerouslySetInnerHTML={{__html:impactData.get("MISSION")?.title}}></div>}
           </p>
         </div>
       </div>
       {/* SDGs Section */}
       <div id="SDGs" ref={sectionRefs.SDGs} className="container mx-auto px-4 py-8 pt-16 min-h-[45vh] grid  content-center">
-        <div className="flex justify-between items-center mb-6">
+         <div className="flex justify-between items-center mb-6">
           <h1 className="text-4xl font-bold">SDGs</h1>
           <Image src={sdg_logo} alt="Sustainable Development Goals" className="h-16 w-16" />
         </div>
-        <p className="mb-8 text-gray-700">
+        {/* <p className="mb-8 text-gray-700">
           Transition VC is dedicated to advancing crucial Sustainable Development Goals (SDGs),
           <br /> fostering impactful solutions that contribute to a more sustainable and inclusive world.
-        </p>
-        <div className="flex flex-wrap gap-4 justify-center">
-          {sdgs.map((sdg) => (
-            <SDGIcon key={sdg.number} {...sdg} />
-          ))}
-        </div>
+        </p> */}
+      {impactData &&  <div dangerouslySetInnerHTML={{__html:impactData.get("SDGS")?.title}}>
+
+        </div>}
       </div>
       {/* ESG Section  */}
       <div id="ESGs" ref={sectionRefs.ESGs} className="container mx-auto px-4 py-8 pt-16 min-h-[45vh] grid  content-center">
         <h1 className="text-4xl font-bold mb-8">ESGs</h1>
-        {esgData.map((item, index) => (
-          <div key={index} className="mb-8">
-            <h2 className="text-2xl font-semibold mb-2">
-              <span className="text-teal-500 text-4xl font-bold">{item.letter}</span>
-              {item.title}
-            </h2>
-            <p className="text-gray-700">{item.content}</p>
-          </div>
-        ))}
+        {impactData &&  <div dangerouslySetInnerHTML={{__html:impactData.get("ESGS")?.title}}>
+
+</div>}
       </div>
-      {/* Policies Section */}
-      <div id="Policies" ref={sectionRefs.Policies} className="container mx-auto px-4 py-16 min-h-[45vh] grid  content-center">
-        <h1 className="text-4xl font-bold mb-8">Policies</h1>
-        <div className="space-y-8">
-          {policies.map((policy, index) => (
-            <React.Fragment key={index}>
-              <PolicyItem {...policy} />
-              {index < policies.length - 1 && <hr className="border-t border-gray-200" />}
-            </React.Fragment>
-          ))}
-        </div>
-      </div>
+      <div id="Policies" ref={sectionRefs.Policies} className="container mx-auto px-4 py-16 min-h-[45vh] grid content-center">
+      <h1 className="text-4xl font-bold mb-8">Policies</h1>
+      <div className="space-y-8">
+    {impactData?.get("POLICIES")?.map((item: any) => (
+      <React.Fragment key={item?._id}>
+        <PolicyItem {...item} />
+        <hr className="border-t border-gray-200" />
+      </React.Fragment>
+    ))}
+  </div>
+</div>
     </>
   );
 }
