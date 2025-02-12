@@ -7,6 +7,7 @@ import { sendEmail } from "../utils/send-email";
 interface PitchIdeasModalProps {
   isOpen: boolean;
   onClose: () => void;
+  title: string
 }
 
 interface AlertProps {
@@ -29,7 +30,7 @@ const Alert: React.FC<AlertProps & { onClose: () => void }> = ({
   </div>
 );
 
-const PitchIdeasModal: React.FC<PitchIdeasModalProps> = ({ isOpen, onClose }) => {
+const PitchIdeasModal: React.FC<PitchIdeasModalProps> = ({ isOpen, onClose, title }) => {
   const [alert, setAlert] = useState<AlertProps | null>(null);
   const [loading, setLoading] = useState(false);
   const alertRef = useRef<HTMLDivElement>(null);
@@ -104,7 +105,7 @@ const PitchIdeasModal: React.FC<PitchIdeasModalProps> = ({ isOpen, onClose }) =>
       <AbstractForm
         isOpen={isOpen}
         onClose={onClose}
-        title="Pitch your ideas to us"
+        title={title}
         includeFileInput={true}
         fields={fields}
         onSubmit={handleSubmit}

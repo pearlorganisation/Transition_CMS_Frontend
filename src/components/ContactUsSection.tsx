@@ -25,10 +25,12 @@ const ContactUsSection = ({data}: any) => {
     const [isConversationFormOpen, setIsConversationFormOpen] = useState(false);
     const [isContactFormOpen, setIsContactFormOpen] = useState(false);
     console.log("the contact data is in section is", data)
-    
+    const [title,setTitle] = useState<any>("Pitch your ideas to us")
     const handleClick = (data:any)=>{
-
+     setIsModalOpen(true)
+     setTitle(data.value)
     }
+    console.log("the set title is", title)
   return (
     <div className="container mx-auto px-4 py-8 space-y-12 mb-20">
       {Array.isArray(data) && data?.map((el)=>(
@@ -41,13 +43,13 @@ const ContactUsSection = ({data}: any) => {
 
         <div className="text-2xl/8">
         {el?.fieldArr?.map((item:any)=>(<>
-            {item?.title}
+            {item?.title}{" "}
             
           
         {item?.type === "FORM" ? (
         <>
            <button
-            onClick={() => setIsModalOpen(true)}
+            onClick={() => handleClick(item)}
             className="text-primary font-mono font-medium hover:underline"
           >
             {item?.buttonText}
@@ -174,7 +176,7 @@ const ContactUsSection = ({data}: any) => {
           </a>
         </p>
       </section> */}
-      <FormPitchDeck isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      <FormPitchDeck title={title} isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
       <FormClickHere isOpen={isClickHereFormOpen} onClose={() => setIsClickHereFormOpen(false)} />
       <FormGetInTouch isOpen={isGetInTouchFormOpen} onClose={() => setIsGetInTouchFormOpen(false)} />
       <FormConversation isOpen={isConversationFormOpen} onClose={() => setIsConversationFormOpen(false)} />
