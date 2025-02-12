@@ -23,7 +23,8 @@ function ArticleCard(item:{
   _id:any,
   icon:any,
   title:string,
-  link:string
+  link:string,
+  dateMetaData: string
 
 }) {
   return (
@@ -31,7 +32,7 @@ function ArticleCard(item:{
       <div className="card-body p-4">
         <Image src={item?.icon?.secure_url} width={400} height={400} alt = {item?.title} className="w-[350px] h-[160px] object-cover rounded-md" />
         <p className="text-[1.25rem] text-wrap pr-[0.7rem]">{item?.title}</p>
-        <h4 className="text-[#828282] font-thin py-2">{item?.title}</h4>
+        <h4 className="text-[#828282] font-thin py-2">{item?.dateMetaData}</h4>
         {item?.link && <a href={item?.link} target="_blank" className="text-2xl px-0 text-primary hover:underline">Read More</a>}
         {/* { 
           !item?.link && <Link href={`/insight/${item._id}`} className="text-2xl px-0 text-primary hover:underline">Read More</Link>
