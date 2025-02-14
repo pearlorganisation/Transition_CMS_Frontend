@@ -72,7 +72,7 @@ function TimelineCard(
                 </div>
                 <h1 className=" font-mono font-medium pl-1">{title}</h1>
               </span>
-              <article className="prose text-lg  md:text-3xl text-wrap my-[2rem]">{parse(body)}</article>
+              {/* <article className="prose text-lg  md:text-3xl text-wrap my-[2rem]">{parse(body)}</article> */}
               <div className="grid md:grid-flow-col justify-around gap-4 bottom-0 mb-4 w-full">
                 {Array.isArray(stats) &&  stats.map((el)=>(
                   <div key={el?._id} className="stats size-[12rem] shadow bottom-0">

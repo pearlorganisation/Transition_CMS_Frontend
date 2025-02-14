@@ -81,7 +81,7 @@ function FocusCard({
 }
  
 
-export default function FocusArea() {
+export default function  FocusArea() {
   const currentCardRef = useRef<HTMLDivElement | null>(null);
   const [focusData, setFocusData]= useState([]);
 useEffect(() => {
@@ -174,7 +174,7 @@ console.log("the focus data is", focusData)
                   <span className="text-primary">Energy Supply.</span>
                 </h3> */}
                   <h3 className="font-light">
-                  {focusData[0]?.title} <span className="text-primary">Energy Demand</span> and{" "}
+                  {focusData?.[0]?.title} <span className="text-primary">Energy Demand</span> and{" "}
                   <span className="text-primary">Energy Supply.</span>
                 </h3>
               </div>

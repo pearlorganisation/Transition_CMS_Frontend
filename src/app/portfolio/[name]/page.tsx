@@ -13,8 +13,10 @@ import { backendBaseUrl } from "@/components/utils/backendUrl";
 import parse from "html-react-parser"
  
 const co_investors = { gruhas: sq_gruhas, millennium: sq_millennium };
-
-export default function PortfolioDetail({ params }: { params: { name: string } }) {
+interface PortfolioDetailProps {
+  params: { name: string };
+}
+export default function PortfolioDetail({ params }: PortfolioDetailProps) {
  
     const searchParams = useSearchParams();
     const id = searchParams.get('id');

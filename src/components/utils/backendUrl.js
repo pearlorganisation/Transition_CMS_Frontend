@@ -1,1 +1,1 @@
-export const backendBaseUrl = `http://localhost:8000/api/v1`
+export const backendBaseUrl = process.env.NEXT_PUBLIC_BASE_URL_BACKEND;
