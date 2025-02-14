@@ -115,7 +115,7 @@ export default function NewsSection(props: NewsSectionProps) {
  
   console.log("the press data is", pressData)
  
-  const swiperRef = useRef(null);
+  const swiperRef:any = useRef(null);
     const nextSlide = () => {
       if (swiperRef.current && swiperRef.current.swiper) {
       swiperRef.current.swiper.slideNext();

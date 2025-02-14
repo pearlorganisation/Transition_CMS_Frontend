@@ -47,8 +47,7 @@ export default function ArticlesSection({props}: {props: ArticlesSectionProps|un
   const title = props?.title ?? "Articles";
   const subtitle = props?.subtitle ?? "Articles";
   const articleCards = props?.articleCards??[];
-  console.log("the artcilecards are", articleCards);
-   const swiperRef = useRef(null);
+   const swiperRef:any = useRef(null);
     const nextSlide = () => {
       if (swiperRef.current && swiperRef.current.swiper) {
       swiperRef.current.swiper.slideNext();

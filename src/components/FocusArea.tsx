@@ -83,7 +83,7 @@ function FocusCard({
 
 export default function  FocusArea() {
   const currentCardRef = useRef<HTMLDivElement | null>(null);
-  const [focusData, setFocusData]= useState([]);
+  const [focusData, setFocusData]= useState<any>([]);
 useEffect(() => {
   const fetchFocus = async () => {
     try {
@@ -95,7 +95,6 @@ useEffect(() => {
   };
   fetchFocus();
 }, []);
-console.log("the focus data is", focusData)
   // focusData = await getFocusArea()
   // console.log("the focus data is", focusData)
   useEffect(() => {
@@ -201,7 +200,7 @@ console.log("the focus data is", focusData)
           <div className="carousel flex flex-nowrap gap-5 w-full items-start overflow-x-auto scroll-smooth">
              
            {Array.isArray(focusData) && focusData.map((item) => (
-              item?.focusAreas?.map((el) => (
+              item?.focusAreas?.map((el: any) => (
                 <div
                   id={el?._id}
                   key={el?._id}  
