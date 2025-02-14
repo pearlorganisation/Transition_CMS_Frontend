@@ -56,8 +56,7 @@ export default function Impacts() {
       try {
         setLoading(true);
         setError(null);
-         
-        alert(backendBaseUrl)
+      
         const response = await fetch(`${backendBaseUrl}/impact`);
 
         if (!response.ok) {

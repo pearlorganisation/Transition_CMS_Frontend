@@ -19,6 +19,7 @@ import {
   PiArrowRightFill,
   PiArrowLeftFill,
 } from "react-icons/pi";
+import { backendBaseUrl } from "./utils/backendUrl";
 function FocusCard({
   image,
   title,
@@ -87,8 +88,11 @@ export default function  FocusArea() {
 useEffect(() => {
   const fetchFocus = async () => {
     try {
-      const data = await getFocusArea();
-      setFocusData(data.data);
+      const data = await fetch(`${backendBaseUrl}/focusarea`,{
+        cache:'no-store'
+      });
+      const res = await data.json();
+      setFocusData(res?.data||[]);
     } catch (error) {
       console.error("Error fetching focus area data:", error);
     }

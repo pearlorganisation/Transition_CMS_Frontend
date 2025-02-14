@@ -31,7 +31,7 @@ function TimelineCard(
 ) {
   return (
     <div className="timeline-end mb-4">
-      {value === number.toString() ? (
+      {value == number.toString() ? (
         <></>
       ) : (
         <button
@@ -47,7 +47,7 @@ function TimelineCard(
         </button>
       )}
       <div className="collapse">
-        {value !== number.toString() ? (
+        {value != number.toString() ? (
           <></>
         ) : (
           <>
@@ -55,7 +55,7 @@ function TimelineCard(
               type="radio"
               value={number.toString()}
               onChange={handleOptionChange}
-              checked={value === number.toString()}
+              checked={value == number.toString()}
               name="my-accordion-1"
               aria-label="Timeline Accordion"
             />
@@ -72,7 +72,7 @@ function TimelineCard(
                 </div>
                 <h1 className=" font-mono font-medium pl-1">{title}</h1>
               </span>
-              {/* <article className="prose text-lg  md:text-3xl text-wrap my-[2rem]">{parse(body)}</article> */}
+              <article className="prose text-lg  md:text-3xl text-wrap my-[2rem]">{parse(body)}</article>
               <div className="grid md:grid-flow-col justify-around gap-4 bottom-0 mb-4 w-full">
                 {Array.isArray(stats) &&  stats.map((el)=>(
                   <div key={el?._id} className="stats size-[12rem] shadow bottom-0">
@@ -130,7 +130,9 @@ export default function Timeline() {
    useEffect(()=>{
     const fetchData = async()=>{
      try {
-       const data = await fetch(`${backendBaseUrl}/portfolio`)
+       const data = await fetch(`${backendBaseUrl}/portfolio`,{
+        cache:"no-store"
+       })
        const res = await data.json()
        console.log("the res is", res)
        setPortfolioData(res.data);
@@ -156,14 +158,14 @@ export default function Timeline() {
        <li key={el?._id}>  
          <div className="timeline-middle mt-4">
             <time className="font-mono text-[1.5rem]/[1.45rem] pt-6">
-                {el?.investmentTimeline?.investmentYear}
+                {el?.investmentTimeline?.investmentYear||2003}
             </time>
          </div>
         {TimelineCard(
                 {
                   number: index+1,
                   title: el?.name,
-                  body:el?.investmentTimeline?.description,
+                  body:el?.overview||'<div>Something Went Wrong</div>',
                   image: t_emo,
                   value,
                   stats: el?.investmentTimeline?.cards,
@@ -172,7 +174,7 @@ export default function Timeline() {
               )}
         <hr
             className={
-                value === el?._id
+                value == (index+1).toString()
                     ? `${classes["timeline-divider"]} width-[1px] overflow-visible` // Use template literal for string concatenation
                     : "width-[1px]"
              }
