@@ -20,7 +20,15 @@ export default function PortfolioDetail({ params }: PortfolioDetailProps) {
  
     const searchParams = useSearchParams();
     const id = searchParams.get('id');
-    const [singlePortfolio, setSinglePortfolio] = useState(null);
+    interface Portfolio {
+      title: string;
+      mainDescription: string;
+      cards: { title: string; description: string }[];
+      bottomSectionContent: string;
+      coInvestedBy: { _id: string; logo: { secure_url: string }; name: string }[];
+    }
+    
+    const [singlePortfolio, setSinglePortfolio] = useState<Portfolio | null>(null);
     const [loading, setLoading] = useState(true);
     console.log("The id is", id);
 
