@@ -53,10 +53,15 @@ function FocusCard({
           <div className="collapse-content">
             <article className="text-wrap prose">
               {/* Feature list styled like original paragraph */}
-              <div className="space-y-2">
-                {Array.isArray(features) && features?.map((feature, index) => (
-                  <div key={index} className="text-base">{feature}</div>
-                ))}
+             <div className="space-y-2">
+                <ul className="list-disc list-outside pl-4">
+                  {Array.isArray(features) &&
+                    features.map((feature, index) => (
+                      <li key={index} className="text-base">
+                        {feature}
+                      </li>
+                    ))}
+                </ul>
               </div>
             </article>
           </div>
