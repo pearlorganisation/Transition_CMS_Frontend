@@ -177,8 +177,9 @@ useEffect(() => {
                   <span className="text-primary">Energy Supply.</span>
                 </h3> */}
                   <h3 className="font-light">
-                  {focusData?.[0]?.title} <span className="text-primary">Energy Demand</span> and{" "}
-                  <span className="text-primary">Energy Supply.</span>
+                  {focusData?.[0]?.title} 
+                  {/* <span className="text-primary">Energy Demand</span> and{" "}
+                  <span className="text-primary">Energy Supply.</span> */}
                 </h3>
               </div>
             </div>

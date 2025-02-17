@@ -13,7 +13,7 @@ export default function Contact() {
   const [isLoading, setLoading] = useState(true);
   const [isError, setIsError]= useState(false);
   const [contactData, setContactData] = useState<any>(null);
-
+console.log("the backend url is", backendBaseUrl)
   useEffect(()=>{
      const fetchContact = async()=>{
           try {
