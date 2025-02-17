@@ -24,7 +24,7 @@ function InvestmentCard({id, name, link, body, image }: InvestmentCardInterface)
           <div className="grid grid-flow-row grid-cols-1 md:grid-cols-3 place-content-center gap-8">
             <a href={link} target="_blank" className="flex justify-center items-center">
               <Image
-                src={image.secure_url}
+                src={image?.secure_url}
                 alt="Matel"
                 width={180}
                 height={38}
@@ -95,8 +95,8 @@ export default function InvestmentHighlightSections({data}:any) {
         {/* {investments.map((investment) => (
           <InvestmentCard key={investment.name} name={investment.name} link={investment.link} body={investment.body} image={investment.image} />
         ))} */}
-          {data.map((investment:any) => (
-          <InvestmentCard key={investment.name} id={investment._id} name={investment.name} link={investment.link} body={investment.overview} image={investment.image} />
+          { data && data?.map((investment:any) => (
+          <InvestmentCard key={investment?.name} id={investment?._id} name={investment?.name} link={investment?.link} body={investment?.overview} image={investment?.image} />
         ))}
       </div>
     </>

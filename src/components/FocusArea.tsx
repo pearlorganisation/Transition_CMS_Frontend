@@ -41,20 +41,20 @@ function FocusCard({
         {/* Image container matching icon size and shape */}
         <div className="size-14 rounded-full flex items-center justify-center overflow-hidden">
           <img
-            src={image.secure_url}
+            src={image?.secure_url}
             alt={title}
             className="w-full h-full object-cover"
           />
         </div>
         
-        <p className="text-2xl text-wrap mt-4 min-h-16">{title}</p>
+        <p className="text-2xl text-wrap mt-4 min-h-16 ">{title}</p>
         
         <div className={`collapse ${isExpanded ? "collapse-open" : ""}`}>
           <div className="collapse-content">
             <article className="text-wrap prose">
               {/* Feature list styled like original paragraph */}
               <div className="space-y-2">
-                {features.map((feature, index) => (
+                {Array.isArray(features) && features?.map((feature, index) => (
                   <div key={index} className="text-base">{feature}</div>
                 ))}
               </div>
@@ -211,9 +211,9 @@ useEffect(() => {
                   className="carousel-item w-[90%] md:w-[40%] lg:w-[22.2%] flex-shrink-0"
                 >
                   <FocusCard
-                    image={el?.image}   
-                    title={el?.title}   
-                    features={el?.features}   
+                    image={el?._id?.image}   
+                    title={el?._id?.title}   
+                    features={el?._id?.features}   
                   />
                 </div>
               ))

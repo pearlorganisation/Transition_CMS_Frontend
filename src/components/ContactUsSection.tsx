@@ -24,14 +24,18 @@ const ContactUsSection = ({data}: any) => {
     const [isGetInTouchFormOpen, setIsGetInTouchFormOpen] = useState(false);
     const [isConversationFormOpen, setIsConversationFormOpen] = useState(false);
     const [isContactFormOpen, setIsContactFormOpen] = useState(false);
+    const [index,setIndex] = useState<number|any>(null)
     console.log("the contact data is in section is", data)
     const [title,setTitle] = useState<any>("Pitch your ideas to us")
-    const handleClick = (data:any)=>{
+    const handleClick = (data:any, index:number)=>{
      setIsModalOpen(true)
-     setTitle(data.value)
+     setTitle(data?.value)
+     setIndex(index);
     }
     console.log("the set title is", title)
-  return (
+    console.log("the index is", index)
+
+    return (
     <div className="container mx-auto px-4 py-8 space-y-12 mb-20">
       {Array.isArray(data) && data?.map((el)=>(
         <>
@@ -42,14 +46,14 @@ const ContactUsSection = ({data}: any) => {
           
 
         <div className="text-2xl/8">
-        {el?.fieldArr?.map((item:any)=>(<>
+        {el?.fieldArr?.map((item:any,index:number)=>(<>
             {item?.title}{" "}
             
           
         {item?.type === "FORM" ? (
         <>
            <button
-            onClick={() => handleClick(item)}
+            onClick={() => handleClick(item, index)}
             className="text-primary font-mono font-medium hover:underline"
           >
             {item?.buttonText}

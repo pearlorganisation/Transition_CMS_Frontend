@@ -8,6 +8,7 @@ import t_protonas from "@/img/investments/timeline_patronas.png";
 import classes from "./Timeline.module.css";
 import { backendBaseUrl } from "./utils/backendUrl";
 import parse from "html-react-parser"
+import Loader from "./Loader";
 function TimelineCard(
   {
     number,
@@ -20,7 +21,7 @@ function TimelineCard(
     number: number;
     title: string;
     body: string;
-    image: StaticImageData;
+    image: {secure_url: string};
     value: string;
     stats: [any];
   },
@@ -79,7 +80,7 @@ function TimelineCard(
                     <div className="stat  bg-accent">
                       <div className="stat-title">
                         {/* <PiTargetFill className="w-[3rem] h-[3rem] fill-primary" />{" "} */}
-                        <Image src={el?.icon?.secure_url} alt="icons" width={48} height={48} ></Image>
+                        <Image src={el?._id?.icon?.secure_url} alt="icons" width={48} height={48} ></Image>
                         {/* <img src={el?.icon?.secure_url} className="size-[3rem]" alt="icon"/> */}
                       </div>
                       <div className="stat-desc text-[1rem] content-end">{el.title}</div>
@@ -110,7 +111,7 @@ function TimelineCard(
             </div>
             <div className="col-span-2">
               <Image
-                src={image}
+                src={image?.secure_url}
                 className="w-full aspect-square"
                 alt={title}
                 width={520}
@@ -126,10 +127,12 @@ function TimelineCard(
 
 export default function Timeline() {
   const [value, setValue] = useState("1");
- const [portfolioData, setPortfolioData] = useState([])
-   useEffect(()=>{
+  const [portfolioData, setPortfolioData] = useState<any[] | null>(null)
+  const [loading, setLoading] = useState<Boolean>(false);
+  useEffect(()=>{
     const fetchData = async()=>{
      try {
+      setLoading(true);
        const data = await fetch(`${backendBaseUrl}/portfolio`,{
         cache:"no-store"
        })
@@ -142,7 +145,12 @@ export default function Timeline() {
      }
     }
     fetchData()
+    setLoading(false);
    },[])
+
+   if(loading){
+    return <Loader />
+   }
   const handleOptionChange = (event: any) => {
     setValue(event.target.value);
     console.log("the value is", value)
@@ -154,19 +162,20 @@ export default function Timeline() {
         <div className="join join-vertical w-full">
           <ul className="timeline timeline-snap-icon max-md:timeline-compact timeline-vertical">
            
-         {Array.isArray(portfolioData) && portfolioData.map((el: any, index) => (
+         {portfolioData && portfolioData.map((el: any, index) => (
        <li key={el?._id}>  
          <div className="timeline-middle mt-4">
             <time className="font-mono text-[1.5rem]/[1.45rem] pt-6">
                 {el?.investmentTimeline?.investmentYear||2003}
             </time>
          </div>
+         
         {TimelineCard(
                 {
                   number: index+1,
                   title: el?.name,
                   body:el?.overview||'<div>Something Went Wrong</div>',
-                  image: t_emo,
+                  image: el?.investmentTimeline?.image,
                   value,
                   stats: el?.investmentTimeline?.cards,
                 },
