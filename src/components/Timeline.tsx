@@ -128,7 +128,7 @@ function TimelineCard(
 export default function Timeline() {
   const [value, setValue] = useState("1");
   const [portfolioData, setPortfolioData] = useState<any[] | null>(null)
-  const [loading, setLoading] = useState<Boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
   useEffect(()=>{
     const fetchData = async()=>{
      try {
