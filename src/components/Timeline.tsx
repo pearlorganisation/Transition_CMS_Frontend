@@ -71,7 +71,7 @@ function TimelineCard(
                 <div className="rounded-full size-[1.875rem] bg-[#BFF7F2]">
                   <p className="font-sans font-medium text-[20px]/[29px] text-center">{number}</p>
                 </div>
-                <h1 className=" font-mono font-medium pl-1">{title}</h1>
+                <h1 className=" font-mono font-medium pl-1">{parse(title)}</h1>
               </span>
               <article className="prose text-lg  md:text-3xl text-wrap my-[2rem]">{parse(body)}</article>
               <div className="grid md:grid-flow-col justify-around gap-4 bottom-0 mb-4 w-full">
