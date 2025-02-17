@@ -83,8 +83,8 @@ function TimelineCard(
                         <Image src={el?._id?.icon?.secure_url} alt="icons" width={48} height={48} ></Image>
                         {/* <img src={el?.icon?.secure_url} className="size-[3rem]" alt="icon"/> */}
                       </div>
-                      <div className="stat-desc text-[1rem] content-end">{el.title}</div>
-                      <div className="stat-value text-[1.14rem]">{el.body}</div>
+                      <div className="stat-desc text-[1rem] content-end">{el?._id?.title}</div>
+                      <div className="stat-value text-[1.14rem]">{el?.body}</div>
                     </div>
                   </div>
                 ))}
