@@ -41,7 +41,7 @@ function FocusCard({
         {/* Image container matching icon size and shape */}
         <div className="size-14 rounded-full flex items-center justify-center overflow-hidden">
           <img
-            src={image.secure_url}
+            src={image?.secure_url}
             alt={title}
             className="w-full h-full object-cover"
           />
