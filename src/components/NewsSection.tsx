@@ -8,27 +8,10 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper/modules';
 import 'swiper/css';
 import {
-  IconBuildingFactory2,
-  IconCircleArrowDownFilled,
-  IconCircleArrowLeft,
-  IconCircleArrowRight,
-} from "@tabler/icons-react";
-import {
-  PiCarProfileFill,
-  PiLockersFill,
-  PiTreeFill,
-  PiSolarPanelFill,
-  PiWindmillFill,
   PiArrowLeftFill,
   PiArrowRightFill,
 } from "react-icons/pi";
-import img_news1 from "../../public/img/news-1.png";
-import img_news2 from "../../public/img/news-2.png";
-import img_news3 from "../../public/img/news-3.png";
-import img_news4 from "../../public/img/news-4.png";
-import img_news5 from "../../public/img/news-5.png";
-import img_news6 from "../../public/img/news-6.png";
-
+ 
 export interface NewsSectionProps {
   subtitle?: string;
   showSubtitle?: boolean;
@@ -38,50 +21,25 @@ export interface NewsSectionProps {
 
 function NewsCard(item:any) {
   return (
-  // <div className="card bg-base-100 shadow-md w-full border">
-  //   <div className="card-body p-4">
-  //     <Image src={item?.icon?.secure_url} height={200} width={200}   alt="Transition News" className="w-full h-full object-contain" />
-  //     <h3 className="tracking-[.2rem] text-[#5C5C5C] font-medium py-2">{item?.shortTitle ?? item.blogType}</h3>
-      
-  //     <p className="text-[1.25rem] text-wrap pr-[0.7rem]">{item?.title}</p>
-  //     <h4 className="text-[#828282] font-thin py-2">
-  //       {item?.dateMetaData}
-  //     </h4>
-  //     {item?.link &&<a href={item?.link} target='_blank' className="text-2xl px-0 text-primary hover:underline">
-  //       Read More
-  //     </a>}
-
-  //     {
-  //       !item?.link && <Link href={`/insight/${item?._id}`} className="text-2xl px-0 text-primary hover:underline">
-  //       Read More
-  //     </Link>}
-      
-  //   </div>
-  // </div>
   <div className="card bg-base-100 shadow-md w-full border">
       <div className="card-body p-4">
         <Image src={item?.icon?.secure_url} height={100} width={200}   alt="Transition News" className="w-full h-[160px] rounded-md object-cover" />
         <h3 className="tracking-[.2rem] text-[#5C5C5C] font-medium py-2">{item?.shortTitle}</h3>
         {/* <div className="size-14 rounded flex items-center justify-center">{icon}</div> */}
         <p className="text-[1.25rem] text-wrap line-clamp-2 pr-[0.7rem]">{item?.title}</p>
-        <h4 className="text-[#828282] font-thin py-2">
+        <h4 className="text-[#828282] line-clamp-1 font-thin py-2">
           {item.dateMetaData}
         </h4>
         {item?.link &&<a href={item.link} target="_blank" className="text-2xl px-0 text-primary hover:underline">
           Read More
         </a>}
-{/* 
-        { 
-          !item?.link && <a href={"/"} target="_blank" className="text-2xl px-0 text-primary hover:underline">
-          Read More
-        </a>} */}
         
       </div>
     </div>
   );
 }
 export default function NewsSection(props: NewsSectionProps) {
-  console.log("news and press is",props.newsCards)
+ 
   const showSubtitle = props?.showSubtitle ?? true;
   const title = props?.title ?? "Featured news and articles";
   const subtitle = props?.subtitle ?? "News";
@@ -178,39 +136,30 @@ export default function NewsSection(props: NewsSectionProps) {
             {/* <div className="carousel flex flex-nowrap gap-5 w-full"> */}
             <div className="carousel overflow-visible flex flex-nowrap gap-5 w-full  items-start overflow-x-auto scroll-smooth">
                 <Swiper
-                              ref={swiperRef}
-                              slidesPerView={1}
-                              spaceBetween={10}
-                              pagination={{ clickable: true }}
-                              breakpoints={{
-                                640: { slidesPerView: 2, spaceBetween: 20 },
-                                768: { slidesPerView: 3, spaceBetween: 30 },
-                                1024: { slidesPerView: 4, spaceBetween: 40 },
-                              }}
-                              modules={[Pagination]}
-                              className="mySwiper w-full"
-                            >
-                                {newsCards.map((item:any) => (
-                                <SwiperSlide key={item?._id}> 
-                                  <div
-                                  id={item?._id}
-                                  key={item?._id}
-                                  className="carousel-item py-2 "
-                                >
-                                  {NewsCard(item)}
-                                </div></SwiperSlide>
-                                
-                              ))}
-                          </Swiper>
-              {/* {newsCards.map((item:any) => (
-                <div
-                  id={item?._id}
-                  key={item?._id}
-                  className="carousel-item py-2 "
-                >
-                  {NewsCard(item)}
-                </div>
-              ))} */}
+                    ref={swiperRef}
+                    slidesPerView={1}
+                    spaceBetween={10}
+                    pagination={{ clickable: true }}
+                    breakpoints={{
+                      640: { slidesPerView: 2, spaceBetween: 20 },
+                      768: { slidesPerView: 3, spaceBetween: 30 },
+                      1024: { slidesPerView: 4, spaceBetween: 40 },
+                    }}
+                    modules={[Pagination]}
+                    className="mySwiper w-full"
+                  >
+                      {newsCards.map((item:any) => (
+                      <SwiperSlide key={item?._id}> 
+                        <div
+                        id={item?._id}
+                        key={item?._id}
+                        className="carousel-item py-2 "
+                      >
+                        {NewsCard(item)}
+                      </div></SwiperSlide>
+                      
+                    ))}
+              </Swiper>
             </div>
           </div>
         </div>

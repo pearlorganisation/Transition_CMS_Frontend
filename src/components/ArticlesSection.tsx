@@ -7,10 +7,6 @@ import {
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper/modules';
 import 'swiper/css';
-import img_art1 from "../../public/img/insight/art-1.png";
-import img_art2 from "../../public/img/insight/art-2.png";
-import img_art3 from "../../public/img/insight/art-3.png";
-import Link from "next/link";
 
 export interface ArticlesSectionProps {
     subtitle?: string;
@@ -28,15 +24,12 @@ function ArticleCard(item:{
 
 }) {
   return (
-    <div className="card bg-base-100 shadow-md w-96 border">
+    <div className="card bg-base-100 shadow-md w-full border">
       <div className="card-body p-4">
         <Image src={item?.icon?.secure_url} width={400} height={400} alt = {item?.title} className="w-[350px] h-[160px] object-cover rounded-md" />
         <p className="text-[1.25rem] text-wrap line-clamp-2 pr-[0.7rem]">{item?.title}</p>
         <h4 className="text-[#828282] font-thin py-2">{item?.dateMetaData}</h4>
         {item?.link && <a href={item?.link} target="_blank" className="text-2xl px-0 text-primary hover:underline">Read More</a>}
-        {/* { 
-          !item?.link && <Link href={`/insight/${item._id}`} className="text-2xl px-0 text-primary hover:underline">Read More</Link>
-        } */}
       </div>
     </div>
   );
