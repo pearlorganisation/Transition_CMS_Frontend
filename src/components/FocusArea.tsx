@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
 import { getFocusArea } from "../lib/database/action/homeAction"
+import parse from "html-react-parser"
 // import Image from "next/image";
 import {
   IconBuildingFactory2,
@@ -182,7 +183,7 @@ useEffect(() => {
                   <span className="text-primary">Energy Supply.</span>
                 </h3> */}
                   <h3 className="font-light">
-                  {focusData?.[0]?.title} 
+                  {focusData?.[0]?.title && parse(focusData?.[0]?.title)} 
                   {/* <span className="text-primary">Energy Demand</span> and{" "}
                   <span className="text-primary">Energy Supply.</span> */}
                 </h3>
