@@ -28,10 +28,10 @@ function ArticleCard(item:{
 
 }) {
   return (
-    <div className="card bg-base-100 shadow-md w-72 border">
+    <div className="card bg-base-100 shadow-md w-96 border">
       <div className="card-body p-4">
         <Image src={item?.icon?.secure_url} width={400} height={400} alt = {item?.title} className="w-[350px] h-[160px] object-cover rounded-md" />
-        <p className="text-[1.25rem] text-nowrap line-clamp-2 pr-[0.7rem]">{item?.title}</p>
+        <p className="text-[1.25rem] text-wrap line-clamp-2 pr-[0.7rem]">{item?.title}</p>
         <h4 className="text-[#828282] font-thin py-2">{item?.dateMetaData}</h4>
         {item?.link && <a href={item?.link} target="_blank" className="text-2xl px-0 text-primary hover:underline">Read More</a>}
         {/* { 
@@ -107,7 +107,7 @@ export default function ArticlesSection({props}: {props: ArticlesSectionProps|un
           breakpoints={{
             640: { slidesPerView: 2, spaceBetween: 20 },
             768: { slidesPerView: 3, spaceBetween: 30 },
-            1024: { slidesPerView: 4, spaceBetween: 40 },
+            1024: { slidesPerView: 3, spaceBetween: 40 },
           }}
           modules={[Pagination]}
           className="mySwiper w-full"
