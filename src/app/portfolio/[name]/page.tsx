@@ -66,7 +66,7 @@ export default function PortfolioDetail() {
       {singlePortfolio && <AbstractHero content={singlePortfolio?.title} bg={bg_portfolio_detail.src} />}
       <section className="min-h-[40vh] py-5 container center mx-auto">
         <div className="py-8 px-4 mx-auto max-w-screen-2xl sm:py-16 lg:px-6">
-          <article className="text-lg text-start md:w-[80%]">{singlePortfolio?.mainDescription}</article>
+          <article className="text-lg text-start md:w-[80%]">{parse(singlePortfolio?.mainDescription)}</article>
         </div>
       </section>
       <div className="container mx-auto px-4 py-8">
