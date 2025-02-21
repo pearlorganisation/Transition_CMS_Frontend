@@ -28,7 +28,7 @@ function ArticleCard(item:{
 
 }) {
   return (
-    <div className="card bg-base-100 shadow-md w-72 border ">
+    <div className="card bg-base-100 shadow-md w-72 border">
       <div className="card-body p-4">
         <Image src={item?.icon?.secure_url} width={400} height={400} alt = {item?.title} className="w-[350px] h-[160px] object-cover rounded-md" />
         <p className="text-[1.25rem] text-nowrap line-clamp-2 pr-[0.7rem]">{item?.title}</p>
@@ -98,7 +98,7 @@ export default function ArticlesSection({props}: {props: ArticlesSectionProps|un
                 </div>
               </div>
             </div>
-         <div className="carousel flex flex-nowrap gap-5 w-full">
+      
         <Swiper
           ref={swiperRef}
           slidesPerView={1}
@@ -111,14 +111,16 @@ export default function ArticlesSection({props}: {props: ArticlesSectionProps|un
           }}
           modules={[Pagination]}
           className="mySwiper w-full"
-        >
+        ><div className="carousel flex flex-nowrap gap-5 w-full">
+
             {articleCards?.map((item) => (
-            <SwiperSlide key={item?._id}>
+            <SwiperSlide key={item?._id} className="carousel-item lg:w-[33.3%] py-2">
               <ArticleCard {...item} />  
             </SwiperSlide>
             ))}
+            </div>
           </Swiper>
-        </div>
+      
           </div>
         </div>
       </section>
