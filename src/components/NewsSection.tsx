@@ -63,7 +63,7 @@ function NewsCard(item:any) {
         <Image src={item?.icon?.secure_url} height={100} width={200}   alt="Transition News" className="w-full h-[160px] rounded-md object-cover" />
         <h3 className="tracking-[.2rem] text-[#5C5C5C] font-medium py-2">{item?.shortTitle}</h3>
         {/* <div className="size-14 rounded flex items-center justify-center">{icon}</div> */}
-        <p className="text-[1.25rem] text-wrap pr-[0.7rem]">{item.title}</p>
+        <p className="text-[1.25rem] text-wrap line-clamp-3 pr-[0.7rem]">{item?.title}</p>
         <h4 className="text-[#828282] font-thin py-2">
           {item.dateMetaData}
         </h4>

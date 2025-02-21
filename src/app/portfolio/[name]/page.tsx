@@ -11,9 +11,9 @@ import parse from "html-react-parser";
 interface Portfolio {
   title: string;
   mainDescription: string;
-  cards: { title: string; description: string }[];
+  cards: { title: string; description: string , _id:{title:string, description: string}}[];
   bottomSectionContent: string;
-  coInvestedBy: { _id: string; logo: { secure_url: string }; name: string }[];
+  coInvestedBy: { _id: {logo: { secure_url: string }, name:string}; name: string }[];
 }
 
 type PageProps = {
@@ -63,24 +63,24 @@ export default function PortfolioDetail() {
 
   return (
     <>
-      <AbstractHero content={singlePortfolio.title} bg={bg_portfolio_detail.src} />
+      {singlePortfolio && <AbstractHero content={singlePortfolio?.title} bg={bg_portfolio_detail.src} />}
       <section className="min-h-[40vh] py-5 container center mx-auto">
         <div className="py-8 px-4 mx-auto max-w-screen-2xl sm:py-16 lg:px-6">
-          <article className="text-lg text-start md:w-[80%]">{singlePortfolio.mainDescription}</article>
+          <article className="text-lg text-start md:w-[80%]">{singlePortfolio?.mainDescription}</article>
         </div>
       </section>
       <div className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {singlePortfolio.cards?.map((section, index) => (
+          {singlePortfolio?.cards?.map((section, index) => (
             <div key={index} className="card bg-base-100 shadow-xl">
               <div className="card-body">
                 <span className="flex items-center gap-2">
                   <div className="text-4xl text-primary mb-4">
                     <PiSparkleFill className="w-[1em] h-[1em] inline-block align-text-bottom" />
                   </div>
-                  <h2 className="card-title mb-4">{parse(section.title)}</h2>
+                  <h2 className="card-title mb-4">{parse(section?._id?.title)}</h2>
                 </span>
-                <article className="prose">{parse(section.description)}</article>
+                <article className="prose">{parse(section?._id?.description)}</article>
               </div>
             </div>
           ))}
@@ -93,7 +93,7 @@ export default function PortfolioDetail() {
             <PiQuotesFill className="w-[1em] h-[1em] justify-center align-text-center text-yellow-600" />
           </div>
           <blockquote className="text-center text-lg sm:text-xl md:text-2xl font-normal text-gray-800 leading-relaxed">
-            {singlePortfolio.bottomSectionContent}
+            {singlePortfolio?.bottomSectionContent}
           </blockquote>
         </div>
         <style jsx>{`
@@ -113,7 +113,7 @@ export default function PortfolioDetail() {
           }
         `}</style>
       </div>
-      {singlePortfolio.coInvestedBy?.length > 0 && (
+      {singlePortfolio?.coInvestedBy?.length > 0 && (
         <section className="relative border border-[#ADE9E4] min-h-[45vh] py-5 flex flex-col overflow-hidden">
           <div className="absolute inset-0 bg-radial-glow"></div>
           <div className="relative z-10 h-max max-w-screen-2xl sm:py-16 lg:px-6 py-8 px-4 mx-auto grow content-center">
@@ -121,11 +121,11 @@ export default function PortfolioDetail() {
               <h3 className="tracking-[.6rem] text-[#5C5C5C] font-medium text-center mb-8">CO-INVESTED BY</h3>
               <div className="grid grid-flow-row grid-cols-1 place-content-center gap-8">
                 <div className="flex justify-center items-center">
-                  {singlePortfolio.coInvestedBy?.map((investor) => (
+                  {singlePortfolio?.coInvestedBy?.map((investor) => (
                     <Image
-                      key={investor._id}
-                      src={investor.logo.secure_url}
-                      alt={investor.name}
+                      key={investor?._id?.name}
+                      src={investor?._id?.logo?.secure_url}
+                      alt={investor?.name}
                       width={180}
                       height={38}
                       priority
