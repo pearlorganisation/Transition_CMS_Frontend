@@ -18,8 +18,9 @@ export default function Home() {
   //  useEffect(()=>{
   //       newsAndArticlData
   //  },[newsData])
+    const [teamData, setTeamData] = useState<any[] | null>(null) // for team landing
    const [portfolioData, setPortfolioData] = useState<any[] | null>(null)
-     const [isloading, setIsLoading] = useState<boolean>(false);
+   const [isloading, setIsLoading] = useState<boolean>(false);
     useEffect(()=>{
       const fetchData = async()=>{
        try {
@@ -28,7 +29,7 @@ export default function Home() {
           cache:"no-store"
          })
          const res = await data.json()
-         console.log("the res is", res)
+        //  console.log("the res is", res)
          setPortfolioData(res.data);
        } catch (error) {
          console.log("the error is", error)
@@ -38,6 +39,23 @@ export default function Home() {
       fetchData()
        setIsLoading(false);
      },[])
+    useEffect(()=>{
+      const fetchData =async()=>{
+        try {
+          const data = await fetch(`${backendBaseUrl}/team-details`,{
+            cache:"no-store"
+          })
+        const res = await data.json();
+        console.log("the team data is", res)
+        setTeamData(res.data)  
+      } catch (error) {
+        console.log("the error is", error)
+        throw error
+        }
+      }
+      fetchData()
+    },[]) 
+    console.log("team data is",teamData )
   return (
     <>
     
@@ -46,7 +64,8 @@ export default function Home() {
 
        {isloading ? <Loader /> : portfolioData && <Portfolio data={portfolioData}  />} 
        {isloading ? <Loader />: portfolioData && <Timeline data={portfolioData} />} 
-      <TeamLanding />
+      
+      {teamData && <TeamLanding  data={teamData} />}
 {
   
 newsData&&      <NewsSection newsCards={[...newsData.get("PRESS")]} showSubtitle={false} title="Press" />
