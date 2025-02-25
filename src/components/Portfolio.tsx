@@ -21,8 +21,8 @@ export default function Portfolio({data}:PortfolioProps) {
           </h3>
 
           <div className="grid grid-flow-row grid-cols-1 md:grid-cols-4 place-content-stretch gap-12">
-              {data && data?.map((el)=>(
-                <Link href="/portfolio" className="flex justify-center items-center ">
+              {data && data?.map((el,idx)=>(
+                <Link key={idx} href="/portfolio" className="flex justify-center items-center ">
                     <Image
                       src={el?.image?.secure_url}
                       alt={el?.name}
