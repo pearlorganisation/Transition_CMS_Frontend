@@ -9,6 +9,9 @@ import classes from "./Timeline.module.css";
 import { backendBaseUrl } from "./utils/backendUrl";
 import parse from "html-react-parser"
 import Loader from "./Loader";
+interface PortfolioProps {
+  data: any[];  // Define the expected prop
+}
 function TimelineCard(
   {
     number,
@@ -84,29 +87,12 @@ function TimelineCard(
                         {/* <img src={el?.icon?.secure_url} className="size-[3rem]" alt="icon"/> */}
                       </div>
                       <div className="stat-desc text-[1rem] content-end">{el?._id?.title}</div>
-                      <div className="stat-value text-[1.14rem]">{el?._id?.body}</div>
+                      <div className="stat-value text-[1.14rem] overflow-hidden">{el?._id?.body}</div>
                     </div>
                   </div>
                 ))}
                
-                {/* <div className="stats size-[12rem] shadow bottom-0 ">
-                  <div className="stat bg-accent">
-                    <div className="stat-title">
-                      <PiMapPinSimpleAreaFill className="w-[3rem] h-[3rem] fill-primary" />
-                    </div>
-                    <div className="stat-desc text-[1rem] content-end">Headquarters</div>
-                    <div className="stat-value text-[1.14rem]">{stats[1]}</div>
-                  </div>
-                </div>
-                <div className="stats size-[12rem] shadow bottom-0 ">
-                  <div className="stat bg-accent">
-                    <div className="stat-title">
-                      <PiBuildingOfficeFill className="w-[3rem] h-[3rem] fill-primary" />
-                    </div>
-                    <div className="stat-desc text-[1rem] content-end">Established</div>
-                    <div className="stat-value text-[1.14rem]">{stats[2]}</div>
-                  </div>
-                </div> */}
+                 
               </div>
             </div>
             <div className="col-span-2">
@@ -125,28 +111,28 @@ function TimelineCard(
   );
 }
 
-export default function Timeline() {
+export default function Timeline({data}: PortfolioProps) {
   const [value, setValue] = useState("1");
-  const [portfolioData, setPortfolioData] = useState<any[] | null>(null)
+  // const [portfolioData, setPortfolioData] = useState<any[] | null>(null)
   const [loading, setLoading] = useState<boolean>(false);
-  useEffect(()=>{
-    const fetchData = async()=>{
-     try {
-      setLoading(true);
-       const data = await fetch(`${backendBaseUrl}/portfolio`,{
-        cache:"no-store"
-       })
-       const res = await data.json()
-       console.log("the res is", res)
-       setPortfolioData(res.data);
-     } catch (error) {
-       console.log("the error is", error)
-       throw error
-     }
-    }
-    fetchData()
-    setLoading(false);
-   },[])
+  // useEffect(()=>{
+  //   const fetchData = async()=>{
+  //    try {
+  //     setLoading(true);
+  //      const data = await fetch(`${backendBaseUrl}/portfolio`,{
+  //       cache:"no-store"
+  //      })
+  //      const res = await data.json()
+  //      console.log("the res is", res)
+  //      setPortfolioData(res.data);
+  //    } catch (error) {
+  //      console.log("the error is", error)
+  //      throw error
+  //    }
+  //   }
+  //   fetchData()
+  //   setLoading(false);
+  //  },[])
 
    if(loading){
     return <Loader />
@@ -162,7 +148,7 @@ export default function Timeline() {
         <div className="join join-vertical w-full">
           <ul className="timeline timeline-snap-icon max-md:timeline-compact timeline-vertical">
            
-         {portfolioData && portfolioData.map((el: any, index) => (
+         {data && data.map((el: any, index) => (
        <li key={el?._id}>  
          <div className="timeline-middle mt-4">
             <time className="font-mono text-[1.5rem]/[1.45rem] pt-6">
