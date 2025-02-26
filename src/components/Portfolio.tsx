@@ -5,6 +5,16 @@ import Link from "next/link";
 import sq_matel from "../../public/img/investments/sq_matel.png";
 import sq_emo from "../../public/img/investments/sq_emo.png";
 import sq_protonas from "../../public/img/investments/sq_protonas.png";
+import { Swiper, SwiperSlide } from 'swiper/react';
+
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/pagination';
+
+
+
+// import required modules
+import { Pagination ,Autoplay} from 'swiper/modules';
 interface PortfolioProps {
   data: any[];  // Define the expected prop
 }
@@ -20,20 +30,58 @@ export default function Portfolio({data}:PortfolioProps) {
             Our Portfolio
           </h3>
 
-          <div className="grid grid-flow-row grid-cols-1 md:grid-cols-4 place-content-stretch gap-12">
-              {data && data?.map((el,idx)=>(
-                <Link key={idx} href="/portfolio" className="flex justify-center items-center ">
-                    <Image
+          <div className="">
+            {data &&<Swiper
+            
+        slidesPerView={1}
+        spaceBetween={10}
+        autoplay={{
+          delay: 2000,
+          disableOnInteraction: false,
+        }}
+        pagination={{
+          clickable: true,
+          dynamicBullets: true,
+
+        }}
+        breakpoints={{
+          640: {
+            slidesPerView: 2,
+            spaceBetween: 10,
+          },
+          768: {
+            slidesPerView: 4,
+            spaceBetween: 15,
+          },
+          1024: {
+            slidesPerView: 5,
+            spaceBetween: 20,
+          },
+        }}
+        modules={[Pagination,Autoplay]}
+        className="mySwiper   "
+      >
+              { data?.map((el,idx)=>{
+                return (<SwiperSlide key={idx}>
+                  <Link  key={idx}
+                   href="/portfolio" 
+                   >
+                    <div className="flex p-2 justify-center items-center py-8">
+     <Image
+                      
                       src={el?.image?.secure_url}
                       alt={el?.name}
                       width={180}
                       height={38}
                       priority
-                      className="hover:scale-110 transition-transform duration-300 hover:border-4 hover:border-primary hover:rounded-[3rem]"
+                      className="hover:scale-110  p-3 transition-transform duration-300 hover:border-4 hover:border-primary hover:rounded-[3rem]"
                     />
+                    </div>
+               
                   </Link>
-              ))}
-
+                  </SwiperSlide>)
+              })}
+         </Swiper>}
           </div>
         </div>
       </div>
