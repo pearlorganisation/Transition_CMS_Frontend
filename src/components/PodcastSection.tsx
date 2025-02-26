@@ -3,7 +3,7 @@ import Image from "next/image";
 import { IconBrandYoutubeFilled } from "@tabler/icons-react";
 import img_podcast from "../../public/img/insight/podcast.png";
 import { backendBaseUrl } from "./utils/backendUrl";
-import { getAllPodcasts } from "@/lib/database/action/insightsAction";
+// import { getAllPodcasts } from "@/lib/database/action/insightsAction";
 
 const PodcastListing = (props:any) => {
   const podcastData = props?.data||[];

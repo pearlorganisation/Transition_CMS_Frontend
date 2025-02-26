@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import Image, { StaticImageData } from "next/image";
-import { getAllNews } from "../lib/database/action/insightsAction"
+// import { getAllNews } from "../lib/database/action/insightsAction"
 import Link from "next/link";
 import moment from "moment"
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -55,23 +55,23 @@ export default function NewsSection(props: NewsSectionProps) {
     link: string;
     type:string
   }
-  const [pressData, setPressData]= useState<News[]>([])
+  // const [pressData, setPressData]= useState<News[]>([])
   
-  useEffect(()=>{
-   const fetchNews =async ()=>{
-    try {
-      const data = await getAllNews()
-      console.log("the data is", data)
-      setPressData(data.data);
-    } catch (error) {
-      console.log(error)
-      throw error      
-    }
-   }
-   fetchNews()
-  },[])
+  // useEffect(()=>{
+  //  const fetchNews =async ()=>{
+  //   try {
+  //     const data = await getAllNews()
+  //     console.log("the data is", data)
+  //     setPressData(data.data);
+  //   } catch (error) {
+  //     console.log(error)
+  //     throw error      
+  //   }
+  //  }
+  //  fetchNews()
+  // },[])
  
-  console.log("the press data is", pressData)
+  // console.log("the press data is", pressData)
  
   const swiperRef:any = useRef(null);
     const nextSlide = () => {
@@ -153,7 +153,7 @@ export default function NewsSection(props: NewsSectionProps) {
                         <div
                         id={item?._id}
                         key={item?._id}
-                        className="carousel-item py-2 "
+                        className="carousel-item py-8 "
                       >
                         {NewsCard(item)}
                       </div></SwiperSlide>
