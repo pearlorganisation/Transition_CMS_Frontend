@@ -107,7 +107,7 @@ export default function ArticlesSection({props}: {props: ArticlesSectionProps|un
         ><div className="carousel flex flex-nowrap gap-5 w-full">
 
             {articleCards?.map((item) => (
-            <SwiperSlide key={item?._id} className="carousel-item lg:w-[33.3%] py-2">
+            <SwiperSlide key={item?._id} className="carousel-item lg:w-[33.3%] py-8">
               <ArticleCard {...item} />  
             </SwiperSlide>
             ))}
