@@ -192,9 +192,7 @@ export default function Impacts() {
     { number: 10, color: "bg-[#DD1367]", imagePath: sdg10.src },
     { number: 9, color: "bg-[#FD6925]", imagePath: sdg9.src },
   ];
-//  if(loading){
-//   return (<Loader />)
-//  }
+ 
   return (
     <>
       <AbstractHero content={content} bg={bg_impact.src} />

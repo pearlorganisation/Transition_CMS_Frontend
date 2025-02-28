@@ -102,7 +102,7 @@ export default function ArticlesSection({props}: {props: ArticlesSectionProps|un
             768: { slidesPerView: 3, spaceBetween: 30 },
             1024: { slidesPerView: 3, spaceBetween: 40 },
           }}
-          modules={[Pagination]}
+          // modules={[Pagination]}
           className="mySwiper w-full"
         ><div className="carousel flex flex-nowrap gap-5 w-full">
 

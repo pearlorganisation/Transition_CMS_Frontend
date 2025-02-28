@@ -145,7 +145,7 @@ export default function NewsSection(props: NewsSectionProps) {
                       768: { slidesPerView: 3, spaceBetween: 30 },
                       1024: { slidesPerView: 4, spaceBetween: 40 },
                     }}
-                    modules={[Pagination]}
+                    // modules={[Pagination]}
                     className="mySwiper w-full"
                   >
                       {newsCards.map((item:any) => (
